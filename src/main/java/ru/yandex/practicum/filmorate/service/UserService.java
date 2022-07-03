@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.InvalidEmailException;
 import ru.yandex.practicum.filmorate.exception.UserAlreadyExistException;
 import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
+import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
@@ -37,7 +38,7 @@ public class UserService {
     public User updateUser(User user) {
         checkEmail(user);
         validateBirthdayAndName(user);
-        if(!users.containsKey(user.getId())){
+        if (!users.containsKey(user.getId())) {
             throw new UserAlreadyExistException(String.format(
                     "Пользователь с id %s не найден.",
                     user.getId()
@@ -48,26 +49,26 @@ public class UserService {
         return user;
     }
 
-    public User findUserByEmail(Integer id) {
-        if (id == null) {
-            return null;
+    public User findUserById(Integer id) {
+        if (id == null || users.get(id) == null) {
+            throw new UserNotFoundException("Пользователь с таким id не найден.");
         }
         return users.get(id);
     }
 
-    private void checkEmail(User user) {
+    void checkEmail(User user) {
         if (user.getEmail() == null || user.getEmail().isBlank()) {
             throw new InvalidEmailException("Адрес электронной почты не может быть пустым.");
         }
     }
 
-      void validateBirthdayAndName(User user) {
+    void validateBirthdayAndName(User user) {
         //проверка даты
         if (user.getBirthday() == null || user.getBirthday().isAfter(LocalDate.now())) {
             throw new UserBirthdayException("Некорректный день рождения");
         }
         //проверка имени
-        if(user.getName() == ""){
+        if (user.getName() == "") {
             user.setName(user.getLogin());
         }
     }

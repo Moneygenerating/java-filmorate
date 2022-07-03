@@ -24,7 +24,6 @@ public class User {
     @Past
     private LocalDate birthday;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

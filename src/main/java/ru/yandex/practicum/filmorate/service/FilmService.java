@@ -3,8 +3,7 @@ package ru.yandex.practicum.filmorate.service;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.FilmDescriptionException;
 import ru.yandex.practicum.filmorate.exception.FilmExceptions;
-import ru.yandex.practicum.filmorate.exception.UserAlreadyExistException;
-import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
+import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.LocalDate;
@@ -39,7 +38,7 @@ public class FilmService {
     public Film updateFilm(Film film) {
         checkDescription(film);
         validate(film);
-        if(!films.containsKey(film.getId())){
+        if (!films.containsKey(film.getId())) {
             throw new FilmExceptions(String.format(
                     "Фильм с id %s не найден.",
                     film.getId()
@@ -49,21 +48,21 @@ public class FilmService {
         return film;
     }
 
-    public Film findFilmByName(Integer id) {
-        if (id == null) {
-            return null;
+    public Film findFilmById(Integer id) {
+        if (id == null || films.get(id) == null) {
+            throw new FilmNotFoundException("Фильм с таким id не найден.");
         }
         return films.get(id);
     }
 
-    private void checkDescription(Film film) {
-        if (film.getDescription().length()>200) {
+    void checkDescription(Film film) {
+        if (film.getDescription().length() > 200) {
             throw new FilmDescriptionException("Количество символов не может быть больше 200.");
         }
     }
 
     void validate(Film film) {
-        LocalDate dateRelease = LocalDate.of(1895, Month.DECEMBER,28);
+        LocalDate dateRelease = LocalDate.of(1895, Month.DECEMBER, 28);
         if (film.getReleaseDate() == null || film.getReleaseDate().isBefore(dateRelease)) {
             throw new FilmExceptions("Некорректная дата выпуска фильма");
         }
