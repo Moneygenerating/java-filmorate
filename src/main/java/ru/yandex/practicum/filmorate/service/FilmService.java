@@ -38,7 +38,7 @@ public class FilmService {
         checkDescription(film);
         validate(film);
         if (!inMemoryFilmStorage.getFilms().containsKey(film.getId())) {
-            throw new FilmExceptions(String.format(
+            throw new FilmNotFoundException(String.format(
                     "Фильм с id %s не найден.",
                     film.getId()
             ));
@@ -48,7 +48,10 @@ public class FilmService {
 
     public Film findFilmById(Integer id) {
         if (id == null || inMemoryFilmStorage.getFilm(id) == null) {
-            throw new FilmNotFoundException("Фильм с таким id не найден.");
+            throw new FilmNotFoundException(String.format(
+                    "Фильм с id %s не найден.",
+                    id
+            ));
         }
         return inMemoryFilmStorage.getFilm(id) ;
     }
