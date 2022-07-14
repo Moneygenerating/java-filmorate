@@ -46,4 +46,16 @@ public class UserController {
         log.info("Выполнен запрос /get на получение пользователя по id");
         return userService.findUserById(userId);
     }
+
+    //добавление в друзья
+    @PutMapping("/users/{id}/friends/{friendId}")
+    public void addFriend(@PathVariable int id, @PathVariable int friendId){
+        userService.addFriend(id,friendId);
+    }
+
+    //удаление из друзей
+    @PutMapping("/users/{id}/friends/{friendId}")
+    public void deleteFriend(@PathVariable int id, @PathVariable int friendId){
+        userService.deleteFriend(id,friendId);
+    }
 }

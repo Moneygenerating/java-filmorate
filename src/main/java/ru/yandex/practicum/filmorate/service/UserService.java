@@ -77,4 +77,26 @@ public class UserService {
             user.setName(user.getLogin());
         }
     }
+
+    public void addFriend(int userId, int friendId) {
+
+        if(inMemoryUserStorage.getUser(userId) == null || inMemoryUserStorage.getUser(friendId)==null) {
+            throw new UserNotFoundException("Пользователи с такими id не найдены, добавление в друзья не получилось");
+        }
+
+        User user = inMemoryUserStorage.getUser(userId);
+        User friend = inMemoryUserStorage.getUser(friendId);
+
+        inMemoryUserStorage.addFriend(user, friend);
+    }
+
+    public void deleteFriend(int userId, int friendId) {
+
+        if(inMemoryUserStorage.getUser(userId) == null || inMemoryUserStorage.getUser(friendId)==null) {
+            throw new UserNotFoundException("Пользователи с такими id не найдены, удаление из друзей не получилось");
+        }
+        User user = inMemoryUserStorage.getUser(userId);
+        User friend = inMemoryUserStorage.getUser(friendId);
+        inMemoryUserStorage.deleteFriend(user, friend);
+    }
 }
