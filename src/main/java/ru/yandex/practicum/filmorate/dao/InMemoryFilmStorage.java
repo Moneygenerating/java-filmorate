@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.HashMap;
 
@@ -40,5 +41,15 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public void deleteFilm(int filmId) {
         films.remove(filmId);
+    }
+
+    @Override
+    public void addLike(Film film, User user){
+        film.getUserId().add(user.getId());
+    }
+
+    @Override
+    public void deleteLike(Film film, User user){
+        film.getUserId().remove(user.getId());
     }
 }

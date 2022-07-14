@@ -9,7 +9,9 @@ import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.exception.FilmDescriptionException;
 import ru.yandex.practicum.filmorate.exception.FilmExceptions;
 import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
+import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -77,5 +79,27 @@ public class FilmService {
         if (film.getReleaseDate() == null || film.getReleaseDate().isBefore(dateRelease)) {
             throw new FilmExceptions("Некорректная дата выпуска фильма");
         }
+    }
+
+    public void addLike(int id, int userId) {
+        if(inMemoryFilmStorage.getFilm(id) == null || inMemoryUserStorage.getUser(userId)==null) {
+            throw new UserNotFoundException("Пользователи/фильмы с такими id не найдены, поставить лайк не получилось");
+        }
+
+        Film film = inMemoryFilmStorage.getFilm(id);
+        User user = inMemoryUserStorage.getUser(userId);
+
+        inMemoryFilmStorage.addLike(film, user);
+    }
+
+    public void deleteLike(int id, int userId) {
+        if(inMemoryFilmStorage.getFilm(id) == null || inMemoryUserStorage.getUser(userId)==null) {
+            throw new UserNotFoundException("Пользователи/фильмы с такими id не найдены, удалить лайк не получилось");
+        }
+
+        Film film = inMemoryFilmStorage.getFilm(id);
+        User user = inMemoryUserStorage.getUser(userId);
+
+        inMemoryFilmStorage.deleteLike(film, user);
     }
 }

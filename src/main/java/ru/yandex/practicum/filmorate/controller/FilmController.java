@@ -47,4 +47,18 @@ public class FilmController {
         log.info("Выполнен запрос /get на получение фильма по id");
         return filmService.findFilmById(filmId);
     }
+
+    //добавление лайка
+    @PutMapping("/films/{id}/like/{userId}")
+    public void addFriend(@PathVariable int id, @PathVariable int userId){
+        log.info("Выполнен запрос /put на добавление лайка");
+        filmService.addLike(id,userId);
+    }
+
+    //удаление лайка
+    @DeleteMapping("/films/{id}/like/{userId}")
+    public void deleteFriend(@PathVariable int id, @PathVariable int userId){
+        log.info("Выполнен запрос /delete на удаление лайка");
+        filmService.deleteLike(id,userId);
+    }
 }
