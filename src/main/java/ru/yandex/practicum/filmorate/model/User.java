@@ -27,7 +27,7 @@ public class User {
     @Past
     private LocalDate birthday;
     @JsonIgnore
-    private HashSet<Integer> friendIds = new HashSet<>();
+    private HashSet<Integer> friendId = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

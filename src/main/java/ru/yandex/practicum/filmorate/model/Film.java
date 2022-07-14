@@ -27,7 +27,7 @@ public class Film {
     @Positive
     private Integer duration;
     @JsonIgnore
-    HashSet<Integer> userIds = new HashSet<>();
+    HashSet<Integer> userId = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
