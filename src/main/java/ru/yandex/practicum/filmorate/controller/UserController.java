@@ -36,7 +36,7 @@ public class UserController {
 
     @PutMapping
     public User updateUser(@RequestBody User user) {
-        log.info("Выполнен запрос /put на обновление пользователя");
+        log.info("Выполнен запрос /update на обновление пользователя");
         return userService.updateUser(user);
     }
 
@@ -50,12 +50,14 @@ public class UserController {
     //добавление в друзья
     @PutMapping("/users/{id}/friends/{friendId}")
     public void addFriend(@PathVariable int id, @PathVariable int friendId){
+        log.info("Выполнен запрос /put на добавление пользователя в друзья");
         userService.addFriend(id,friendId);
     }
 
     //удаление из друзей
     @DeleteMapping("/users/{id}/friends/{friendId}")
     public void deleteFriend(@PathVariable int id, @PathVariable int friendId){
+        log.info("Выполнен запрос /delete на удаление пользователя из друзей");
         userService.deleteFriend(id,friendId);
     }
 }
