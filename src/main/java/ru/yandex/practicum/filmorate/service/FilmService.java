@@ -6,18 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.dao.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
-import ru.yandex.practicum.filmorate.exception.FilmDescriptionException;
-import ru.yandex.practicum.filmorate.exception.FilmExceptions;
-import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
-import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
+import ru.yandex.practicum.filmorate.exception.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
@@ -101,5 +97,17 @@ public class FilmService {
         User user = inMemoryUserStorage.getUser(userId);
 
         inMemoryFilmStorage.deleteLike(film, user);
+    }
+
+    public List<Film> findFilmByCount(Integer count) {
+        if(count <0 ) {
+            throw new IncorrectParameterException("count");
+        }
+        return inMemoryFilmStorage.getFilms().values().stream()
+                .sorted(Comparator.comparingInt(f ->f.getUserId().size()))
+                .limit(count)
+                .collect(Collectors.toList());
+
+
     }
 }

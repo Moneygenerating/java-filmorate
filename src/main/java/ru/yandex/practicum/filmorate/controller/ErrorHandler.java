@@ -74,16 +74,15 @@ public class ErrorHandler {
                 e.getMessage()
         );
     }
-/*
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleParameterError(final IncorrectParameterException e) {
+        log.info("400 {}",e.getMessage());
         return new ErrorResponse(
                 String.format("Ошибка с полем \"%s\".", e.getParameter())
         );
     }
-
- */
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -93,5 +92,4 @@ public class ErrorHandler {
                 "Произошла непредвиденная ошибка"
         );
     }
-
 }

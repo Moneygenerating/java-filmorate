@@ -5,10 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/films")
@@ -60,5 +62,14 @@ public class FilmController {
     public void deleteFriend(@PathVariable int id, @PathVariable int userId){
         log.info("Выполнен запрос /delete на удаление лайка");
         filmService.deleteLike(id,userId);
+    }
+
+
+    //возвращает список из первых count фильмов по количеству лайков.
+    // Если значение параметра count не задано, верните первые 10.
+    @GetMapping("/films/popular?count={count}")
+    public List<Film> getPopularFilms(@RequestParam(defaultValue = "10", required = false)  @PathVariable Integer count) {
+        log.info("Выполнен запрос /get на получение списка  фильмов по количеству лайков.");
+        return filmService.findFilmByCount(count);
     }
 }

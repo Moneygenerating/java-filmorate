@@ -113,6 +113,14 @@ public class UserService {
 
     // список друзей, общих с другим пользователем.
     public List<User> findSameUsersFriends(Integer id, Integer otherId) {
+        if (id == null || inMemoryUserStorage.getUser(id) == null) {
+            throw new UserNotFoundException("Пользователь с таким id не найден.");
+        }
+
+        if (otherId == null || inMemoryUserStorage.getUser(otherId) == null) {
+            throw new UserNotFoundException("Пользователь с таким вторым id не найден.");
+        }
+
         HashSet<Integer> ne1 = inMemoryUserStorage.getUser(id).getFriendId();
         HashSet<Integer> ne2 = inMemoryUserStorage.getUser(otherId).getFriendId();
 
