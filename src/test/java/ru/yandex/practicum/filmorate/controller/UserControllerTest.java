@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTest {
+    InMemoryUserStorage inMemoryUserStorage;
     UserService userService;
     UserController userController;
     User user;
@@ -20,7 +22,8 @@ class UserControllerTest {
 
     @BeforeEach
     void init() {
-        userService = new UserService();
+        inMemoryUserStorage = new InMemoryUserStorage();
+        userService = new UserService(inMemoryUserStorage);
         userController = new UserController(userService);
         user = new User(1, "The Shadow", "SteveT", "Steve@gmail.com"
                 , LocalDate.of(1993, Month.APRIL, 20));

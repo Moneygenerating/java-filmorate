@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.filmorate.dao.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.FilmService;
@@ -13,6 +14,7 @@ import java.time.Month;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FilmControllerTest {
+    InMemoryFilmStorage inMemoryFilmStorage;
     FilmService filmService;
     FilmController filmController;
     Film film;
@@ -20,7 +22,8 @@ class FilmControllerTest {
 
     @BeforeEach
     void init() {
-        filmService = new FilmService();
+        inMemoryFilmStorage = new InMemoryFilmStorage();
+        filmService = new FilmService(inMemoryFilmStorage);
         filmController = new FilmController(filmService);
         film = new Film(1, "Фильм о жизни", "Достучаться до небес"
                 , LocalDate.of(1997, Month.APRIL, 20), 82);

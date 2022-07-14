@@ -1,6 +1,8 @@
 package ru.yandex.practicum.filmorate.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.dao.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.exception.InvalidEmailException;
 import ru.yandex.practicum.filmorate.exception.UserAlreadyExistException;
@@ -16,7 +18,12 @@ import java.util.Map;
 @Service
 public class UserService {
 
-    private final InMemoryUserStorage inMemoryUserStorage = new InMemoryUserStorage();
+    private final InMemoryUserStorage inMemoryUserStorage;
+
+    @Autowired
+    public UserService(InMemoryUserStorage inMemoryUserStorage){
+        this.inMemoryUserStorage = inMemoryUserStorage;
+    }
 
     public Collection<User> findAll() {
         return inMemoryUserStorage.getUsers().values();

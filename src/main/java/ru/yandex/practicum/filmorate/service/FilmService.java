@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.dao.InMemoryFilmStorage;
@@ -16,7 +18,12 @@ import java.util.Map;
 
 @Service
 public class FilmService {
-    private final InMemoryFilmStorage inMemoryFilmStorage = new InMemoryFilmStorage();
+    private final InMemoryFilmStorage inMemoryFilmStorage;
+
+    @Autowired
+    public FilmService(InMemoryFilmStorage inMemoryFilmStorage) {
+        this.inMemoryFilmStorage = inMemoryFilmStorage;
+    }
 
     public Collection<Film> findAll() {
         return inMemoryFilmStorage.getFilms().values();
@@ -53,7 +60,7 @@ public class FilmService {
                     id
             ));
         }
-        return inMemoryFilmStorage.getFilm(id) ;
+        return inMemoryFilmStorage.getFilm(id);
     }
 
     void checkDescription(Film film) {
