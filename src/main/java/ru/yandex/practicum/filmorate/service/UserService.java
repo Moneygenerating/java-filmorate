@@ -11,10 +11,8 @@ import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -22,7 +20,7 @@ public class UserService {
     private final InMemoryUserStorage inMemoryUserStorage;
 
     @Autowired
-    public UserService(InMemoryUserStorage inMemoryUserStorage){
+    public UserService(InMemoryUserStorage inMemoryUserStorage) {
         this.inMemoryUserStorage = inMemoryUserStorage;
     }
 
@@ -81,7 +79,7 @@ public class UserService {
 
     public void addFriend(int userId, int friendId) {
 
-        if(inMemoryUserStorage.getUser(userId) == null || inMemoryUserStorage.getUser(friendId)==null) {
+        if (inMemoryUserStorage.getUser(userId) == null || inMemoryUserStorage.getUser(friendId) == null) {
             throw new UserNotFoundException("Пользователи с такими id не найдены, добавление в друзья не получилось");
         }
 
@@ -93,7 +91,7 @@ public class UserService {
 
     public void deleteFriend(int userId, int friendId) {
 
-        if(inMemoryUserStorage.getUser(userId) == null || inMemoryUserStorage.getUser(friendId)==null) {
+        if (inMemoryUserStorage.getUser(userId) == null || inMemoryUserStorage.getUser(friendId) == null) {
             throw new UserNotFoundException("Пользователи с такими id не найдены, удаление из друзей не получилось");
         }
         User user = inMemoryUserStorage.getUser(userId);
@@ -101,12 +99,28 @@ public class UserService {
         inMemoryUserStorage.deleteFriend(user, friend);
     }
 
-
     //возвращаем список пользователей, являющихся его друзьями
-    public HashSet<Integer> findUserFriendsById(Integer id) {
+    public List<User> findUserFriendsById(Integer id) {
         if (id == null || inMemoryUserStorage.getUser(id) == null) {
             throw new UserNotFoundException("Пользователь с таким id не найден.");
         }
-        return inMemoryUserStorage.getUser(id).getFriendId();
+        return inMemoryUserStorage.getUser(id)
+                .getFriendId()
+                .stream()
+                .map(inMemoryUserStorage::getUser)
+                .collect(Collectors.toList());
+    }
+
+    // список друзей, общих с другим пользователем.
+    public List<User> findSameUsersFriends(Integer id, Integer otherId) {
+        HashSet<Integer> ne1 = inMemoryUserStorage.getUser(id).getFriendId();
+        HashSet<Integer> ne2 = inMemoryUserStorage.getUser(otherId).getFriendId();
+
+        //Оставим только похожие id
+        ne1.retainAll(ne2);
+
+        return ne1.stream()
+                .map(inMemoryUserStorage::getUser)
+                .collect(Collectors.toList());
     }
 }

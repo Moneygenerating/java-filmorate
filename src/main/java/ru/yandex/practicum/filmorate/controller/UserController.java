@@ -10,6 +10,7 @@ import ru.yandex.practicum.filmorate.service.UserService;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -62,10 +63,19 @@ public class UserController {
         userService.deleteFriend(id,friendId);
     }
 
-    @GetMapping("/user/{Id}/friends")
-    public HashSet<Integer> getUserFriends(@PathVariable("Id") Integer Id) {
+    //возвращаем список пользователей, являющихся его друзьями.
+    @GetMapping("/user/{id}/friends")
+    public List<User> getUserFriends(@PathVariable("id") Integer Id) {
         log.info("Выполнен запрос /get на получение друзей пользователя по id");
         return userService.findUserFriendsById(Id);
+    }
+
+    //список друзей, общих с другим пользователем.
+    @GetMapping("/users/{id}/friends/common/{otherId}")
+    public List<User> getSameUsersFriends(@PathVariable("id") Integer id,
+                                          @PathVariable("otherId") Integer otherId) {
+        log.info("Выполнен запрос /get на получение списка друзей, общих с другим пользователем.");
+        return userService.findSameUsersFriends(id, otherId);
     }
 
 }
