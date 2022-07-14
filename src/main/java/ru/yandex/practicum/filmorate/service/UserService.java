@@ -13,6 +13,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 @Service
@@ -98,5 +99,14 @@ public class UserService {
         User user = inMemoryUserStorage.getUser(userId);
         User friend = inMemoryUserStorage.getUser(friendId);
         inMemoryUserStorage.deleteFriend(user, friend);
+    }
+
+
+    //возвращаем список пользователей, являющихся его друзьями
+    public HashSet<Integer> findUserFriendsById(Integer id) {
+        if (id == null || inMemoryUserStorage.getUser(id) == null) {
+            throw new UserNotFoundException("Пользователь с таким id не найден.");
+        }
+        return inMemoryUserStorage.getUser(id).getFriendId();
     }
 }

@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.HashSet;
 
 @RestController
 @RequestMapping("/users")
@@ -40,7 +41,7 @@ public class UserController {
         return userService.updateUser(user);
     }
 
-    //получение пользователя по email
+    //получение пользователя по id
     @GetMapping("/user/{userId}")
     public User getUser(@PathVariable("userId") Integer userId) {
         log.info("Выполнен запрос /get на получение пользователя по id");
@@ -60,4 +61,11 @@ public class UserController {
         log.info("Выполнен запрос /delete на удаление пользователя из друзей");
         userService.deleteFriend(id,friendId);
     }
+
+    @GetMapping("/user/{Id}/friends")
+    public HashSet<Integer> getUserFriends(@PathVariable("Id") Integer Id) {
+        log.info("Выполнен запрос /get на получение друзей пользователя по id");
+        return userService.findUserFriendsById(Id);
+    }
+
 }
