@@ -8,13 +8,16 @@ import ru.yandex.practicum.filmorate.model.Film;
 import java.util.HashMap;
 
 @Component
-@Getter
 @NoArgsConstructor
 public class InMemoryFilmStorage implements FilmStorage {
 
     protected int filmId = 0;
-
     protected HashMap<Integer, Film> films = new HashMap<>();
+
+    @Override
+    public HashMap<Integer, Film> getFilms(){
+        return films;
+    }
 
     @Override
     public Film getFilm(int filmId) {

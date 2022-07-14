@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.exception.InvalidEmailException;
 import ru.yandex.practicum.filmorate.exception.UserAlreadyExistException;
 import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
@@ -14,46 +15,43 @@ import java.util.Map;
 
 @Service
 public class UserService {
-    private final Map<Integer, User> users = new HashMap<>();
-    private Integer usersId = 0;
+
+    private final InMemoryUserStorage inMemoryUserStorage = new InMemoryUserStorage();
 
     public Collection<User> findAll() {
-        return users.values();
+        return inMemoryUserStorage.getUsers().values();
     }
 
     public User createUser(User user) {
         checkEmail(user);
         validateBirthdayAndName(user);
-        if (users.containsKey(user.getId())) {
+
+        if (inMemoryUserStorage.getUsers().containsKey(user.getId())) {
             throw new UserAlreadyExistException(String.format(
                     "Пользователь с таким id %s уже зарегистрирован.",
                     user.getId()
             ));
         }
-        user.setId(++usersId);
-        users.put(user.getId(), user);
-        return user;
+        return inMemoryUserStorage.saveUser(user);
     }
 
     public User updateUser(User user) {
         checkEmail(user);
         validateBirthdayAndName(user);
-        if (!users.containsKey(user.getId())) {
+        if (!inMemoryUserStorage.getUsers().containsKey(user.getId())) {
             throw new UserAlreadyExistException(String.format(
                     "Пользователь с id %s не найден.",
                     user.getId()
             ));
         }
-        users.put(user.getId(), user);
-
-        return user;
+        return inMemoryUserStorage.updateUser(user);
     }
 
     public User findUserById(Integer id) {
-        if (id == null || users.get(id) == null) {
+        if (id == null || inMemoryUserStorage.getUser(id) == null) {
             throw new UserNotFoundException("Пользователь с таким id не найден.");
         }
-        return users.get(id);
+        return inMemoryUserStorage.getUser(id);
     }
 
     void checkEmail(User user) {

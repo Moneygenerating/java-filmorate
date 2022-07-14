@@ -8,13 +8,16 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.util.HashMap;
 
 @Component
-@Getter
 @NoArgsConstructor
 public class InMemoryUserStorage implements UserStorage {
 
     protected int usersId = 0;
-
     protected HashMap<Integer, User> users = new HashMap<>();
+
+    @Override
+    public HashMap<Integer, User> getUsers(){
+        return users;
+    }
 
     @Override
     public User getUser(int userId) {

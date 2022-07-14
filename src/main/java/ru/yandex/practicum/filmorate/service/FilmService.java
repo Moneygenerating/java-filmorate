@@ -1,6 +1,8 @@
 package ru.yandex.practicum.filmorate.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.dao.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.exception.FilmDescriptionException;
 import ru.yandex.practicum.filmorate.exception.FilmExceptions;
 import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
@@ -14,45 +16,41 @@ import java.util.Map;
 
 @Service
 public class FilmService {
-    private final Map<Integer, Film> films = new HashMap<>();
-    private Integer filmId = 0;
+    private final InMemoryFilmStorage inMemoryFilmStorage = new InMemoryFilmStorage();
 
     public Collection<Film> findAll() {
-        return films.values();
+        return inMemoryFilmStorage.getFilms().values();
     }
 
     public Film createFilm(Film film) {
         checkDescription(film);
         validate(film);
-        if (films.containsKey(film.getId())) {
+        if (inMemoryFilmStorage.getFilms().containsKey(film.getId())) {
             throw new FilmExceptions(String.format(
                     "Фильм с таким названием %s уже существует.",
                     film.getName()
             ));
         }
-        film.setId(++filmId);
-        films.put(film.getId(), film);
-        return film;
+        return inMemoryFilmStorage.saveFilm(film);
     }
 
     public Film updateFilm(Film film) {
         checkDescription(film);
         validate(film);
-        if (!films.containsKey(film.getId())) {
+        if (!inMemoryFilmStorage.getFilms().containsKey(film.getId())) {
             throw new FilmExceptions(String.format(
                     "Фильм с id %s не найден.",
                     film.getId()
             ));
         }
-        films.put(film.getId(), film);
-        return film;
+        return inMemoryFilmStorage.updateFilm(film);
     }
 
     public Film findFilmById(Integer id) {
-        if (id == null || films.get(id) == null) {
+        if (id == null || inMemoryFilmStorage.getFilm(id) == null) {
             throw new FilmNotFoundException("Фильм с таким id не найден.");
         }
-        return films.get(id);
+        return inMemoryFilmStorage.getFilm(id) ;
     }
 
     void checkDescription(Film film) {

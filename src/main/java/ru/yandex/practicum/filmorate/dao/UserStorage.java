@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 public interface UserStorage {
 
+    HashMap<Integer, User> getUsers();
+
     User getUser(int userId);
 
     User saveUser(User user);
