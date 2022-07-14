@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.dao.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.FilmService;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FilmControllerTest {
     InMemoryFilmStorage inMemoryFilmStorage;
+    InMemoryUserStorage inMemoryUserStorage;
     FilmService filmService;
     FilmController filmController;
     Film film;
@@ -22,8 +24,9 @@ class FilmControllerTest {
 
     @BeforeEach
     void init() {
+        inMemoryUserStorage = new InMemoryUserStorage();
         inMemoryFilmStorage = new InMemoryFilmStorage();
-        filmService = new FilmService(inMemoryFilmStorage);
+        filmService = new FilmService(inMemoryFilmStorage, inMemoryUserStorage);
         filmController = new FilmController(filmService);
         film = new Film()
                 .setId(1)
