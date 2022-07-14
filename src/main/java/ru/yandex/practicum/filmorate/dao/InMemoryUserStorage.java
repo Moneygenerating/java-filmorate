@@ -14,28 +14,28 @@ public class InMemoryUserStorage implements UserStorage {
 
     protected int usersId = 0;
 
-    protected HashMap<Integer, User> userHashMap = new HashMap<>();
+    protected HashMap<Integer, User> users = new HashMap<>();
 
     @Override
     public User getUser(int userId) {
-        return userHashMap.get(userId);
+        return users.get(userId);
     }
 
     @Override
     public User saveUser(User user) {
         user.setId(++usersId);
-        userHashMap.put(user.getId(), user);
+        users.put(user.getId(), user);
         return user;
     }
 
     @Override
     public User updateUser(User user) {
-        userHashMap.put(user.getId(), user);
-        return userHashMap.get(user.getId());
+        users.put(user.getId(), user);
+        return user;
     }
 
     @Override
-    public void deleteUser(User user) {
-        userHashMap.remove(user.getId());
+    public void deleteUser(int userId) {
+        users.remove(userId);
     }
 }
