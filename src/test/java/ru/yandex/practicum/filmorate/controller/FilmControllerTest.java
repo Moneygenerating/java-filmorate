@@ -25,12 +25,19 @@ class FilmControllerTest {
         inMemoryFilmStorage = new InMemoryFilmStorage();
         filmService = new FilmService(inMemoryFilmStorage);
         filmController = new FilmController(filmService);
-        film = new Film(1, "Фильм о жизни", "Достучаться до небес"
-                , LocalDate.of(1997, Month.APRIL, 20), 82);
+        film = new Film()
+                .setId(1)
+                .setDescription("Фильм о жизни")
+                .setName("Достучаться до небес")
+                .setReleaseDate( LocalDate.of(1997, Month.APRIL, 20))
+                .setDuration(82);
 
-        film2 = new Film(2, "Фильм о жизни", "Карты, деньги, два ствола"
-                , LocalDate.of(1998, Month.APRIL, 20), 107);
-
+        film2 = new Film()
+                .setId(2)
+                .setDescription("Фильм о жизни")
+                .setName("Карты, деньги, два ствола")
+                .setReleaseDate(LocalDate.of(1998, Month.APRIL, 20))
+                .setDuration(107);
     }
 
     @Test

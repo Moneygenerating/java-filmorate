@@ -1,17 +1,20 @@
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.*;
+import lombok.experimental.Accessors;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@Accessors(chain = true)
 public class User {
     private Integer id;
     //валидация через аннотацию
@@ -23,6 +26,8 @@ public class User {
     private String email;
     @Past
     private LocalDate birthday;
+    @JsonIgnore
+    private HashSet<Integer> friendIds = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

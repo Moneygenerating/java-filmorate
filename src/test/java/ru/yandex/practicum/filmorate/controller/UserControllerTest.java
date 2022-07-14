@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
+import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
@@ -25,11 +26,20 @@ class UserControllerTest {
         inMemoryUserStorage = new InMemoryUserStorage();
         userService = new UserService(inMemoryUserStorage);
         userController = new UserController(userService);
-        user = new User(1, "The Shadow", "SteveT", "Steve@gmail.com"
-                , LocalDate.of(1993, Month.APRIL, 20));
 
-        user2 = new User(2, "The Shadow2", "SteveD", "Steve2@gmail.com"
-                , LocalDate.of(1999, Month.APRIL, 29));
+        user = new User()
+                .setId(1)
+                .setName("The Shadow")
+                .setLogin("SteveT")
+                .setEmail("Steve@gmail.com")
+                .setBirthday(LocalDate.of(1993, Month.APRIL, 20));
+
+        user2 = new User()
+                .setId(2)
+                .setName("The Shadow2")
+                .setLogin("SteveD")
+                .setEmail("Steve2@gmail.com")
+                .setBirthday(LocalDate.of(1999, Month.APRIL, 29));
 
     }
 
@@ -49,8 +59,14 @@ class UserControllerTest {
     @Test
     void updateUser() {
         userController.createUser(user);
-        User userUpdatable = new User(1, "The ShadowUPD", "SteveT", "Steve@gmail.com"
-                , LocalDate.of(1993, Month.APRIL, 20));
+
+        User userUpdatable = new User()
+                .setId(1)
+                .setName("The ShadowUPD")
+                .setLogin("SteveT")
+                .setEmail("Steve@gmail.com")
+                .setBirthday(LocalDate.of(1993, Month.APRIL, 20));
+
         userController.updateUser(userUpdatable);
         assertEquals(userUpdatable, userController.getUser(1));
     }
