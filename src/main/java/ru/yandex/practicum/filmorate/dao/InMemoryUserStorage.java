@@ -10,7 +10,7 @@ import java.util.HashMap;
 @Component
 @Getter
 @NoArgsConstructor
-public class InMemoryUserStorage implements UserStorage{
+public class InMemoryUserStorage implements UserStorage {
 
     protected int usersId = 0;
 
@@ -29,8 +29,8 @@ public class InMemoryUserStorage implements UserStorage{
     }
 
     @Override
-    public User updateUser(User user){
-        userHashMap.put(user.getId(),user);
+    public User updateUser(User user) {
+        userHashMap.put(user.getId(), user);
         return userHashMap.get(user.getId());
     }
 
