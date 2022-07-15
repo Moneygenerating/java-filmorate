@@ -11,9 +11,10 @@ import ru.yandex.practicum.filmorate.service.FilmService;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("/films")
+@RequestMapping("films")
 public class FilmController {
     private final FilmService filmService;
     private static final Logger log = LoggerFactory.getLogger(FilmController.class);
@@ -44,21 +45,21 @@ public class FilmController {
     }
 
     //получение фильма по имени
-    @GetMapping("/film/{filmId}")
+    @GetMapping("/{filmId}")
     public Film getFilm(@PathVariable("filmId") Integer filmId) {
         log.info("Выполнен запрос /get на получение фильма по id");
         return filmService.findFilmById(filmId);
     }
 
     //добавление лайка
-    @PutMapping("/films/{id}/like/{userId}")
+    @PutMapping("/{id}/like/{userId}")
     public void addFriend(@PathVariable int id, @PathVariable int userId){
         log.info("Выполнен запрос /put на добавление лайка");
         filmService.addLike(id,userId);
     }
 
     //удаление лайка
-    @DeleteMapping("/films/{id}/like/{userId}")
+    @DeleteMapping("/{id}/like/{userId}")
     public void deleteFriend(@PathVariable int id, @PathVariable int userId){
         log.info("Выполнен запрос /delete на удаление лайка");
         filmService.deleteLike(id,userId);
@@ -67,8 +68,8 @@ public class FilmController {
 
     //возвращает список из первых count фильмов по количеству лайков.
     // Если значение параметра count не задано, верните первые 10.
-    @GetMapping("/films/popular?count={count}")
-    public List<Film> getPopularFilms(@RequestParam(defaultValue = "10", required = false)  @PathVariable Integer count) {
+    @GetMapping("/popular")
+    public Stream<Film> getPopularFilms(@RequestParam(defaultValue = "10", required = false) Integer count) {
         log.info("Выполнен запрос /get на получение списка  фильмов по количеству лайков.");
         return filmService.findFilmByCount(count);
     }

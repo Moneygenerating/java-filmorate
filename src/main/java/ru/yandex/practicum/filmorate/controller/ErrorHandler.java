@@ -58,18 +58,18 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleFilmExceptions(final FilmExceptions e) {
-        log.info("409 {}",e.getMessage());
+        log.info("400 {}",e.getMessage());
         return new ErrorResponse(
                 e.getMessage()
         );
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleFilmDescribeExceptions(final FilmDescriptionException e) {
-        log.info("409 {}",e.getMessage());
+        log.info("400 {}",e.getMessage());
         return new ErrorResponse(
                 e.getMessage()
         );

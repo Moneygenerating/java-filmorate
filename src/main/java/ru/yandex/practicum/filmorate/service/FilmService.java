@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class FilmService {
@@ -99,15 +100,16 @@ public class FilmService {
         inMemoryFilmStorage.deleteLike(film, user);
     }
 
-    public List<Film> findFilmByCount(Integer count) {
+    public Stream<Film> findFilmByCount(Integer count) {
         if(count <0 ) {
             throw new IncorrectParameterException("count");
         }
+
         return inMemoryFilmStorage.getFilms().values().stream()
-                .sorted(Comparator.comparingInt(f ->f.getUserId().size()))
-                .limit(count)
-                .collect(Collectors.toList());
-
-
+                .sorted((f0,f1)->{
+                    int comp = f0.getUserId().size() - f1.getUserId().size();
+                    return comp*-1;
+                })
+                .limit(count);
     }
 }
