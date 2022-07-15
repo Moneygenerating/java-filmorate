@@ -1,7 +1,5 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.dao.InMemoryFilmStorage;
@@ -13,7 +11,6 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -79,7 +76,7 @@ public class FilmService {
     }
 
     public void addLike(int id, int userId) {
-        if(inMemoryFilmStorage.getFilm(id) == null || inMemoryUserStorage.getUser(userId)==null) {
+        if (inMemoryFilmStorage.getFilm(id) == null || inMemoryUserStorage.getUser(userId) == null) {
             throw new UserNotFoundException("Пользователи/фильмы с такими id не найдены, поставить лайк не получилось");
         }
 
@@ -90,7 +87,7 @@ public class FilmService {
     }
 
     public void deleteLike(int id, int userId) {
-        if(inMemoryFilmStorage.getFilm(id) == null || inMemoryUserStorage.getUser(userId)==null) {
+        if (inMemoryFilmStorage.getFilm(id) == null || inMemoryUserStorage.getUser(userId) == null) {
             throw new UserNotFoundException("Пользователи/фильмы с такими id не найдены, удалить лайк не получилось");
         }
 
@@ -101,14 +98,14 @@ public class FilmService {
     }
 
     public Stream<Film> findFilmByCount(Integer count) {
-        if(count <0 ) {
+        if (count < 0) {
             throw new IncorrectParameterException("count");
         }
 
         return inMemoryFilmStorage.getFilms().values().stream()
-                .sorted((f0,f1)->{
+                .sorted((f0, f1) -> {
                     int comp = f0.getUserId().size() - f1.getUserId().size();
-                    return comp*-1;
+                    return comp * -1;
                 })
                 .limit(count);
     }

@@ -29,7 +29,7 @@ class FilmServiceTest {
                 .setId(1)
                 .setDescription("Фильм о жизни")
                 .setName("Достучаться до небес")
-                .setReleaseDate( LocalDate.of(1997, Month.APRIL, 20))
+                .setReleaseDate(LocalDate.of(1997, Month.APRIL, 20))
                 .setDuration(82);
 
         film2 = new Film()

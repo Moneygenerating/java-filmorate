@@ -3,14 +3,11 @@ package ru.yandex.practicum.filmorate.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
-import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
-import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 

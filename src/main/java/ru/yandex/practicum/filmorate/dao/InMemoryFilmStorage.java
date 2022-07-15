@@ -16,7 +16,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     protected HashMap<Integer, Film> films = new HashMap<>();
 
     @Override
-    public HashMap<Integer, Film> getFilms(){
+    public HashMap<Integer, Film> getFilms() {
         return films;
     }
 
@@ -44,12 +44,12 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public void addLike(Film film, User user){
+    public void addLike(Film film, User user) {
         film.getUserId().add(user.getId());
     }
 
     @Override
-    public void deleteLike(Film film, User user){
+    public void deleteLike(Film film, User user) {
         film.getUserId().remove(user.getId());
     }
 }

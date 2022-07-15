@@ -1,16 +1,13 @@
 package ru.yandex.practicum.filmorate.controller;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Stream;
 
 @RestController
@@ -53,18 +50,17 @@ public class FilmController {
 
     //добавление лайка
     @PutMapping("/{id}/like/{userId}")
-    public void addFriend(@PathVariable int id, @PathVariable int userId){
+    public void addFriend(@PathVariable int id, @PathVariable int userId) {
         log.info("Выполнен запрос /put на добавление лайка");
-        filmService.addLike(id,userId);
+        filmService.addLike(id, userId);
     }
 
     //удаление лайка
     @DeleteMapping("/{id}/like/{userId}")
-    public void deleteFriend(@PathVariable int id, @PathVariable int userId){
+    public void deleteFriend(@PathVariable int id, @PathVariable int userId) {
         log.info("Выполнен запрос /delete на удаление лайка");
-        filmService.deleteLike(id,userId);
+        filmService.deleteLike(id, userId);
     }
-
 
     //возвращает список из первых count фильмов по количеству лайков.
     // Если значение параметра count не задано, верните первые 10.

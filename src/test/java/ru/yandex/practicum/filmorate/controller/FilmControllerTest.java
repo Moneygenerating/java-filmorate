@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.dao.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.FilmService;
-import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -32,7 +30,7 @@ class FilmControllerTest {
                 .setId(1)
                 .setDescription("Фильм о жизни")
                 .setName("Достучаться до небес")
-                .setReleaseDate( LocalDate.of(1997, Month.APRIL, 20))
+                .setReleaseDate(LocalDate.of(1997, Month.APRIL, 20))
                 .setDuration(82);
 
         film2 = new Film()
