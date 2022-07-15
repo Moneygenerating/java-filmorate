@@ -11,9 +11,10 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("users")
 public class UserController {
 
     private final UserService userService;
@@ -43,35 +44,35 @@ public class UserController {
     }
 
     //получение пользователя по id
-    @GetMapping("/user/{userId}")
+    @GetMapping("/{userId}")
     public User getUser(@PathVariable("userId") Integer userId) {
         log.info("Выполнен запрос /get на получение пользователя по id");
         return userService.findUserById(userId);
     }
 
     //добавление в друзья
-    @PutMapping("/users/{id}/friends/{friendId}")
+    @PutMapping("/{id}/friends/{friendId}")
     public void addFriend(@PathVariable int id, @PathVariable int friendId){
         log.info("Выполнен запрос /put на добавление пользователя в друзья");
         userService.addFriend(id,friendId);
     }
 
     //удаление из друзей
-    @DeleteMapping("/users/{id}/friends/{friendId}")
+    @DeleteMapping("/{id}/friends/{friendId}")
     public void deleteFriend(@PathVariable int id, @PathVariable int friendId){
         log.info("Выполнен запрос /delete на удаление пользователя из друзей");
         userService.deleteFriend(id,friendId);
     }
 
-    //возвращаем список пользователей, являющихся его друзьями.
-    @GetMapping("/user/{id}/friends")
-    public List<User> getUserFriends(@PathVariable("id") Integer Id) {
+    //возвращаем список пользователей, являющихся его друзьями./todo
+    @GetMapping("/{id}/friends")
+    public Stream<User> getUserFriends(@PathVariable("id") Integer id) {
         log.info("Выполнен запрос /get на получение друзей пользователя по id");
-        return userService.findUserFriendsById(Id);
+        return userService.findUserFriendsById(id);
     }
 
     //список друзей, общих с другим пользователем.
-    @GetMapping("/users/{id}/friends/common/{otherId}")
+    @GetMapping("/{id}/friends/common/{otherId}")
     public List<User> getSameUsersFriends(@PathVariable("id") Integer id,
                                           @PathVariable("otherId") Integer otherId) {
         log.info("Выполнен запрос /get на получение списка друзей, общих с другим пользователем.");

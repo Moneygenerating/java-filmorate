@@ -12,7 +12,9 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService {
@@ -100,15 +102,15 @@ public class UserService {
     }
 
     //возвращаем список пользователей, являющихся его друзьями
-    public List<User> findUserFriendsById(Integer id) {
+    public Stream<User> findUserFriendsById(Integer id) {
         if (id == null || inMemoryUserStorage.getUser(id) == null) {
             throw new UserNotFoundException("Пользователь с таким id не найден.");
         }
-        return inMemoryUserStorage.getUser(id)
-                .getFriendId()
+
+        return inMemoryUserStorage.getUser(id).getFriendId()
                 .stream()
-                .map(inMemoryUserStorage::getUser)
-                .collect(Collectors.toList());
+                .peek(i->System.out.println("peek: " + i))
+                .map(inMemoryUserStorage::getUser);
     }
 
     // список друзей, общих с другим пользователем.

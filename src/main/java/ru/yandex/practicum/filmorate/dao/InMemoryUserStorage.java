@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 @Component
 @NoArgsConstructor
@@ -45,6 +46,17 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public void addFriend(User user, User friend){
         //для упрощения в друзья добавляются одновременно
+        /*
+        HashSet<Integer> userFriends = user.getFriendId();
+        userFriends.add(friend.getId());
+        user.setFriendId(userFriends);
+
+        HashSet<Integer> friendFriends =friend.getFriendId();
+        friendFriends.add(user.getId());
+        friend.setFriendId(friendFriends);
+
+         */
+
         user.getFriendId().add(friend.getId());
         friend.getFriendId().add(user.getId());
     }
