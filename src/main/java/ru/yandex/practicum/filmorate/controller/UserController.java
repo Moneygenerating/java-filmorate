@@ -73,8 +73,8 @@ public class UserController {
 
     //список друзей, общих с другим пользователем.
     @GetMapping("/{id}/friends/common/{otherId}")
-    public List<User> getSameUsersFriends(@PathVariable("id") Integer id,
-                                          @PathVariable("otherId") Integer otherId) {
+    public Stream<User> getSameUsersFriends(@PathVariable("id") Integer id,
+                                            @PathVariable("otherId") Integer otherId) {
         log.info("Выполнен запрос /get на получение списка друзей, общих с другим пользователем.");
         return userService.findSameUsersFriends(id, otherId);
     }

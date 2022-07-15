@@ -109,12 +109,12 @@ public class UserService {
 
         return inMemoryUserStorage.getUser(id).getFriendId()
                 .stream()
-                .peek(i->System.out.println("peek: " + i))
                 .map(inMemoryUserStorage::getUser);
     }
+    /*
 
     // список друзей, общих с другим пользователем.
-    public List<User> findSameUsersFriends(Integer id, Integer otherId) {
+    public Stream<User> findSameUsersFriends(Integer id, Integer otherId) {
         if (id == null || inMemoryUserStorage.getUser(id) == null) {
             throw new UserNotFoundException("Пользователь с таким id не найден.");
         }
@@ -128,9 +128,39 @@ public class UserService {
 
         //Оставим только похожие id
         ne1.retainAll(ne2);
-
+        if(ne1.size() == 0){
+            return Stream.empty();
+        }
         return ne1.stream()
-                .map(inMemoryUserStorage::getUser)
-                .collect(Collectors.toList());
+                .map(inMemoryUserStorage::getUser);
     }
+
+     */
+
+    // список друзей, общих с другим пользователем.
+    public Stream<User> findSameUsersFriends(Integer id, Integer otherId) {
+        if (id == null || inMemoryUserStorage.getUser(id) == null) {
+            throw new UserNotFoundException("Пользователь с таким id не найден.");
+        }
+
+        if (otherId == null || inMemoryUserStorage.getUser(otherId) == null) {
+            throw new UserNotFoundException("Пользователь с таким вторым id не найден.");
+        }
+
+        return inMemoryUserStorage.getUsers().values().stream()
+                .filter(u ->id.equals(u.getId()) || otherId.equals(u.getId()))
+                .map(User::getFriendId)
+                .flatMap(Collection::stream)
+                // Creates a map type -> {4:1, 5:2, 7:2, 8:2, 9:1}
+                .collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
+                .entrySet()
+                // Convert back to stream to filter
+                .stream()
+                //get values(only doubles, same >1)
+                .filter(element->element.getValue()>1)
+                //execute values
+                .map(Map.Entry::getKey)
+                .map(inMemoryUserStorage::getUser);
+    }
+
 }
