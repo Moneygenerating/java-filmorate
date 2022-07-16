@@ -10,6 +10,7 @@ import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,7 +28,7 @@ public class User {
     @Past
     private LocalDate birthday;
     @JsonIgnore
-    private HashSet<Integer> friendId = new HashSet<>();
+    private Set<Integer> friendId = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

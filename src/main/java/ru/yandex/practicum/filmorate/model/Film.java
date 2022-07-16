@@ -11,6 +11,7 @@ import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,7 +27,7 @@ public class Film {
     @Positive
     private Integer duration;
     @JsonIgnore
-    HashSet<Integer> userId = new HashSet<>();
+    private Set<Integer> userId = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
