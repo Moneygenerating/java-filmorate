@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.exception.InvalidEmailException;
 import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
@@ -13,18 +14,28 @@ import java.time.Month;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTest {
+    InMemoryUserStorage inMemoryUserStorage;
     UserService userService;
     User user;
     User user2;
 
     @BeforeEach
     void init() {
-        userService = new UserService();
-        user = new User(1, "The Shadow", "SteveT", "Steve@gmail.com"
-                , LocalDate.of(1993, Month.APRIL, 20));
+        inMemoryUserStorage = new InMemoryUserStorage();
+        userService = new UserService(inMemoryUserStorage);
+        user = new User()
+                .setId(1)
+                .setName("The Shadow")
+                .setLogin("SteveT")
+                .setEmail("Steve@gmail.com")
+                .setBirthday(LocalDate.of(1993, Month.APRIL, 20));
 
-        user2 = new User(2, "The Shadow2", "SteveD", "Steve2@gmail.com"
-                , LocalDate.of(1999, Month.APRIL, 29));
+        user2 = new User()
+                .setId(2)
+                .setName("The Shadow2")
+                .setLogin("SteveD")
+                .setEmail("Steve2@gmail.com")
+                .setBirthday(LocalDate.of(1999, Month.APRIL, 29));
     }
 
     @Test
