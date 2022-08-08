@@ -30,6 +30,8 @@ public class User {
     @JsonIgnore
     private Set<Integer> friendId = new HashSet<>();
 
+    private String friendshipStatus = "Не подтверждено";
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

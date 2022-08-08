@@ -24,6 +24,8 @@ public class Film {
     @NotBlank
     private String name;
     private LocalDate releaseDate;
+    private Set<String> genres = new HashSet<>();
+    private RatingMpa ratingMpa;
     @Positive
     private Integer duration;
     @JsonIgnore
