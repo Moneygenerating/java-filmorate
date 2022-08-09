@@ -26,13 +26,24 @@ public class Film {
     @NotBlank
     private String name;
     private LocalDate releaseDate;
-    private Set<String> genres = new HashSet<>();
+    private Set<Genre> genres;
     @NotNull
-    private RatingMpa ratingMpa;
+    private Mpa ratingMpa;
     @Positive
     private Integer duration;
     @JsonIgnore
     private Set<Integer> userId = new HashSet<>();
+
+    public Film(int film_id, String films_name, String description,
+                int duration, LocalDate release_date, Mpa mpa) {
+        this.id=film_id;
+        this.name = films_name;
+        this.description = description;
+        this.duration = duration;
+        this.releaseDate = release_date;
+        this.ratingMpa = mpa;
+
+    }
 
     @Override
     public boolean equals(Object o) {
