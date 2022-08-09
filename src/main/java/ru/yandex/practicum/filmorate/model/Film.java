@@ -2,11 +2,13 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -25,6 +27,7 @@ public class Film {
     private String name;
     private LocalDate releaseDate;
     private Set<String> genres = new HashSet<>();
+    @NotNull
     private RatingMpa ratingMpa;
     @Positive
     private Integer duration;

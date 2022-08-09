@@ -29,8 +29,15 @@ public class User {
     private LocalDate birthday;
     @JsonIgnore
     private Set<Integer> friendId = new HashSet<>();
-
     private String friendshipStatus = "Не подтверждено";
+
+    public User(int user_id, String login, String name, String email, LocalDate birthday) {
+        this.id = user_id;
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.birthday = birthday;
+    }
 
     @Override
     public boolean equals(Object o) {

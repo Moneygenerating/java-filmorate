@@ -68,6 +68,7 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-relational:2.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.7.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.21" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.24" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:2.7.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:2.7.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test-autoconfigure:2.7.1" level="project" />
@@ -97,7 +98,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.3.21" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.3.21" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.9.0" level="project" />
-    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.24" level="project" />
     <orderEntry type="library" name="Maven: org.zalando:logbook-spring-boot-starter:2.14.0" level="project" />
     <orderEntry type="library" name="Maven: org.zalando:logbook-spring-boot-autoconfigure:2.14.0" level="project" />
     <orderEntry type="library" name="Maven: org.zalando:logbook-core:2.14.0" level="project" />
