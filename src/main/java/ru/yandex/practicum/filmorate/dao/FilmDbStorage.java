@@ -16,7 +16,8 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
+//todo запилить дао другие + в посмотреть вебинар вспомнить ответы
+//todo жанры обновляются в сервисе, хотя можно и другую реализацию прописать 
 @Repository
 @Primary
 public class FilmDbStorage implements FilmStorage{
