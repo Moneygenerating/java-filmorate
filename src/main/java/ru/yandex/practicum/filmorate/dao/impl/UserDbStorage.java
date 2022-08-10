@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.dao.UserStorage;
+import ru.yandex.practicum.filmorate.model.Friend;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.*;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 @Primary
@@ -46,11 +48,28 @@ public class UserDbStorage implements UserStorage {
         jdbcTemplate.queryForList(sqlQuery);
         rs.getInteger("USER_ID");
 
+        //как count сделать
+
+        final String sqlSingle = "SELECT COUNT(USER_ID) FROM USERS WHERE LOGIN = ?";
+        Integer countLogins =  jdbcTemplate.queryForObject(sqlSingle, Integer.class);
+
          */
 
 
         return users.get(0);
 
+    }
+
+    //Получить id друзей которые добавили друг друга
+    public List<User> getCommonFriendsByUserId(int id, int friendId) {
+        final String sqlQuery = "SELECT u.USER_ID,u.LOGIN,u.NAME,u.EMAIL,u.BIRTHDAY FROM USERS AS u LEFT JOIN FRIENDS AS f " +
+                "ON u.USER_ID=f.USER_ID WHERE f.USER_ID = ? AND f.FRIENDS_ID = ?";
+        final List<User> commonFriendlyUsers = jdbcTemplate.query(sqlQuery,UserDbStorage::makeUser,friendId,id);
+
+        if(commonFriendlyUsers.size() == 0){
+            return null;
+        }
+        return commonFriendlyUsers;
     }
 
     static User makeUser(ResultSet rs, int rowNum) throws SQLException {

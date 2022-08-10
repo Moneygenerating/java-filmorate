@@ -29,7 +29,9 @@ public class User {
     private LocalDate birthday;
     @JsonIgnore
     private Set<Integer> friendId = new HashSet<>();
-    private String friendshipStatus = "Не подтверждено";
+    //для друга
+    @JsonIgnore
+    private Set<Friend> friend;
 
     public User(int user_id, String login, String name, String email, LocalDate birthday) {
         this.id = user_id;
