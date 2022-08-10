@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.dao.impl.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.exception.InvalidEmailException;
 import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;

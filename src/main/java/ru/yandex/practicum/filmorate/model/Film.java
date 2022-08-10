@@ -36,7 +36,7 @@ public class Film {
 
     public Film(int film_id, String films_name, String description,
                 int duration, LocalDate release_date, Mpa mpa) {
-        this.id=film_id;
+        this.id = film_id;
         this.name = films_name;
         this.description = description;
         this.duration = duration;

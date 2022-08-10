@@ -2,8 +2,8 @@ package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.dao.InMemoryFilmStorage;
-import ru.yandex.practicum.filmorate.dao.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.dao.impl.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.dao.impl.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
