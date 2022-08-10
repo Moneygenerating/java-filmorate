@@ -13,6 +13,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Primary
@@ -46,6 +47,8 @@ public class UserDbStorage implements UserStorage {
         rs.getInteger("USER_ID");
 
          */
+
+
         return users.get(0);
 
     }
