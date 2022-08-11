@@ -49,6 +49,16 @@ public class Film {
 
     }
 
+    public Film(String films_name, String description,
+                int duration, LocalDate release_date, Mpa mpa) {
+        this.name = films_name;
+        this.description = description;
+        this.duration = duration;
+        this.releaseDate = release_date;
+        this.ratingMpa = mpa;
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

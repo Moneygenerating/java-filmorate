@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "FRIENDS"(
                                         "FRIENDS_ID" INTEGER NULL
 );
 CREATE TABLE IF NOT EXISTS "FILM_GENRES"(
-                                            "GENRES_ID" INTEGER PRIMARY KEY NOT NULL,
+                                            "GENRES_ID" INTEGER auto_increment primary key,
                                             "FILM_GENRE" VARCHAR(15) NOT NULL
 );
 
@@ -12,12 +12,12 @@ CREATE TABLE IF NOT EXISTS "FILMS_GENRES_IDS"(
                                                  "FILM_GENRE_ID" INTEGER NULL
 );
 CREATE TABLE IF NOT EXISTS "FILM_RATING_MPA"(
-                                                "MPA_ID" INTEGER PRIMARY KEY NOT NULL,
+                                                "MPA_ID" INTEGER auto_increment primary key,
                                                 "MPA_RATE" VARCHAR(5) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "USERS"(
-                                      "USER_ID" INTEGER PRIMARY KEY NOT NULL,
+                                      "USER_ID" INTEGER auto_increment primary key,
                                       "USER_NAME" VARCHAR(255) NULL,
                                       "LOGIN" VARCHAR(255) NOT NULL,
                                       "EMAIL" VARCHAR(255) NOT NULL,
@@ -29,7 +29,7 @@ ALTER TABLE
 ALTER TABLE
     "USERS" ADD CONSTRAINT IF NOT EXISTS "users_email_unique" UNIQUE("EMAIL");
 CREATE TABLE  IF NOT EXISTS "FILMS"(
-                                       "FILM_ID" INTEGER PRIMARY KEY NOT NULL,
+                                       "FILM_ID" INTEGER auto_increment primary key,
                                        "FILMS_NAME" VARCHAR(255) NULL,
                                        "DESCRIPTION" VARCHAR(255) NULL,
                                        "RATING_MPA" INTEGER NULL,

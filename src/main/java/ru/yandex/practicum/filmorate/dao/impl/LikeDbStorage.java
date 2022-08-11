@@ -54,6 +54,19 @@ public class LikeDbStorage implements LikeStorage {
     }
 
     @Override
+    public void loadFilmLikes(List<Film> films) {
+        String sqlQuery = "SELECT USER_ID, FILM_ID FROM FILM_LIKES WHERE FILM_ID= ?";
+        final Map<Integer, Film> filmMap = films.stream()
+                .collect(Collectors.toMap(Film::getId, film -> film));
+
+        for (Integer id : filmMap.keySet()) {
+            Set<Likes> likes = (Set<Likes>) jdbcTemplate.query(sqlQuery, LikeDbStorage::makeLike, id);
+            filmMap.get(id).setLikes(likes);
+        }
+    }
+
+
+    @Override
     public void deleteFilmLikes(Film film){
         String sqlQuery = "DELETE FROM FILM_LIKES WHERE FILM_ID= ?";
 

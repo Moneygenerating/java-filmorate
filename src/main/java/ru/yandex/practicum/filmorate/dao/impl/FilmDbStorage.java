@@ -19,8 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//todo нужно ли каскадное удаление в film_genres + films_genres_id или хватит реализации в films
-
 @Repository
 @Primary
 public class FilmDbStorage implements FilmStorage {
@@ -70,11 +68,11 @@ public class FilmDbStorage implements FilmStorage {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement stmt = connection.prepareStatement(sqlQuery, new String[]{"USER_ID"});
+            PreparedStatement stmt = connection.prepareStatement(sqlQuery, new String[]{"FILM_ID"});
             stmt.setString(1, film.getName());
             stmt.setString(2, film.getDescription());
             stmt.setInt(3, film.getDuration());
-            stmt.setInt(4,film.getRatingMpa().getId());
+            stmt.setInt(4, film.getRatingMpa().getId());
             final LocalDate release = film.getReleaseDate();
             if (release == null) {
                 stmt.setNull(5, Types.DATE);
@@ -89,14 +87,23 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film updateFilm(Film film) {
+        String sqlQuery = "INSERT INTO FILMS (FILMS_NAME,DESCRIPTION,DURATION,RATING_MPA,RELEASE_DATE) VALUES (?,?,?,?,?)";
 
-        return null;
+        jdbcTemplate.update(sqlQuery
+                , film.getName()
+                , film.getDescription()
+                , film.getDuration()
+                , film.getRatingMpa().getId()
+                , film.getReleaseDate());
+
+        return film;
+
     }
 
     @Override
     public void deleteFilm(int filmId) {
         String sqlQuery = "DELETE FROM FILMS WHERE FILM_ID= ?";
-        jdbcTemplate.update(sqlQuery,filmId);
+        jdbcTemplate.update(sqlQuery, filmId);
 
     }
 

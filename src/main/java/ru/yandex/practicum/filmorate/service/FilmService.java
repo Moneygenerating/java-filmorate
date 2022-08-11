@@ -72,13 +72,14 @@ public class FilmService {
         likeDbStorage.deleteFilmLikes(film);
 
         //сохраняем в бд новый фильм
-        final Film newFilm = filmDbStorage.saveFilm(film);
+        //final Film newFilm = filmDbStorage.saveFilm(film);
+        final Film newFilm = filmDbStorage.updateFilm(film);
 
         //обновляем связи лайков и жанров
-        genreDbStorage.setFilmGenre(film);
+        genreDbStorage.setFilmGenre(newFilm);
 
         if (film.getLikes() != null) {
-            likeDbStorage.setFilmLikes(film);
+            likeDbStorage.setFilmLikes(newFilm);
         }
 
         return newFilm;
@@ -102,6 +103,7 @@ public class FilmService {
         List<Film> films = (List<Film>) filmDbStorage.getFilms();
 
         genreDbStorage.loadFilmGenre(films);
+        likeDbStorage.loadFilmLikes(films);
 
         for (Film film : films) {
             genreDbStorage.loadFilmGenre(film);
@@ -122,7 +124,7 @@ public class FilmService {
             throw new FilmExceptions("Некорректная дата выпуска фильма");
         }
     }
-
+    //toDO
     public void addLike(int id, int userId) {
         if (filmDbStorage.getFilm(id) == null || userDbStorage.getUser(userId) == null) {
             throw new UserNotFoundException("Пользователи/фильмы с такими id не найдены, поставить лайк не получилось");
