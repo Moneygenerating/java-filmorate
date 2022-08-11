@@ -53,6 +53,17 @@ public class LikeDbStorage implements LikeStorage {
         film.setLikes(likes);
     }
 
+    @Override
+    public void deleteFilmLikes(Film film){
+        String sqlQuery = "DELETE FROM FILM_LIKES WHERE FILM_ID= ?";
+
+        if (film.getLikes() == null || film.getLikes().isEmpty()) {
+            return;
+        } else {
+            jdbcTemplate.update(sqlQuery, film.getId());
+        }
+    }
+
 
     static Likes makeLike(ResultSet rs, int rowNum) throws SQLException {
         return new Likes((rs.getInt("USER_ID")),

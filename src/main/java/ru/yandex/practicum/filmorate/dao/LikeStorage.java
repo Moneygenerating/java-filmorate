@@ -11,4 +11,6 @@ public interface LikeStorage {
 
     void loadFilmLikes(Film film);
 
+    void deleteFilmLikes(Film film);
+
 }

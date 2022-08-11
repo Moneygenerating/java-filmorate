@@ -58,7 +58,6 @@ public class FilmService {
     }
 
     public Film updateFilm(Film film) {
-        //todo разобраться как праивльно апдейтить
         checkDescription(film);
         validate(film);
         List<Integer> filmsId = filmDbStorage.getFilms().stream().map(Film::getId).collect(Collectors.toList());
@@ -68,11 +67,17 @@ public class FilmService {
                     film.getId()
             ));
         }
-        filmDbStorage.deleteFilm(film.getId());
+        //удаляем по фильму связи лайков и жанров
+        genreDbStorage.deleteFilmGenre(film);
+        likeDbStorage.deleteFilmLikes(film);
+
+        //сохраняем в бд новый фильм
         final Film newFilm = filmDbStorage.saveFilm(film);
-        genreDbStorage.loadFilmGenre(film);
+
+        //обновляем связи лайков и жанров
         genreDbStorage.setFilmGenre(film);
-        if(film.getLikes()!=null){
+
+        if (film.getLikes() != null) {
             likeDbStorage.setFilmLikes(film);
         }
 
