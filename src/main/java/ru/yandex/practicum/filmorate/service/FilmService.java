@@ -49,7 +49,9 @@ public class FilmService {
 
         // для List newFilm(когда передали много фильмов)
         // genreDbStorage.setFilmGenre(Collections.singletonList(newFilm));
+
         genreDbStorage.setFilmGenre(film);
+        genreDbStorage.loadFilmGenre(newFilm);
 
         if (film.getLikes() != null) {
             likeDbStorage.setFilmLikes(film);
@@ -99,11 +101,10 @@ public class FilmService {
 
 
     public Collection<Film> findAll() {
-        // добавить поменять на эту реализацию List<Film> films = filmDbStorage.getFilms().values();
         List<Film> films = filmDbStorage.getFilms();
 
-        genreDbStorage.loadFilmGenre(films);
-        likeDbStorage.loadFilmLikes(films);
+            genreDbStorage.loadFilmGenre(films);
+            //likeDbStorage.loadFilmLikes(films);
 
         return films;
     }

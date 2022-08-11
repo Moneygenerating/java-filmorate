@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -35,6 +36,7 @@ public class Film {
     private Integer duration;
     //@JsonIgnore
     private Set<Likes> likes;
+    
     @JsonIgnore
     private Set<Integer> userId = new HashSet<>();
 

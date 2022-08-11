@@ -9,9 +9,7 @@ import ru.yandex.practicum.filmorate.model.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -41,27 +39,32 @@ public class GenreDbStorage implements GenreStorage {
 
     @Override
     public void loadFilmGenre(Film film) {
-        String sqlQuery = "SELECT fgi.FILMS_ID, g.FILM_GENRE FROM FILMS_GENRES_IDS AS fgi JOIN FILM_GENRES AS g ON " +
-                "fgi.FILMS_ID = g.GENRES_ID WHERE FILMS_ID= ?";
+        String sqlQuery = "SELECT g.GENRES_ID, g.FILM_GENRE FROM FILMS_GENRES_IDS AS fgi LEFT JOIN FILM_GENRES AS g ON " +
+                "fgi.FILM_GENRE_ID = g.GENRES_ID WHERE FILMS_ID= ?";
 
-        Set<Genre> genres = (Set<Genre>) jdbcTemplate.query(sqlQuery, GenreDbStorage::makeGenre, film.getId());
+        List<Genre> genres =  jdbcTemplate.query(sqlQuery, GenreDbStorage::makeGenre, film.getId());
+        LinkedHashSet<Genre>fd = new LinkedHashSet<>(genres);
         //обновляем жанры
-        film.setGenres(genres);
+        film.setGenres(fd);
 
     }
 
+
     @Override
     public void loadFilmGenre(List<Film> films) {
-        String sqlQuery = "SELECT fgi.FILMS_ID, g.FILM_GENRE FROM FILMS_GENRES_IDS AS fgi JOIN FILM_GENRES AS g ON " +
-                "fgi.FILMS_ID = g.GENRES_ID WHERE FILMS_ID= ?";
+        String sqlQuery = "SELECT g.GENRES_ID, g.FILM_GENRE FROM FILMS_GENRES_IDS AS fgi LEFT JOIN FILM_GENRES AS g ON " +
+                "fgi.FILM_GENRE_ID = g.GENRES_ID WHERE FILMS_ID= ?";
         final List<Integer> ids = films.stream().map(Film::getId).collect(Collectors.toList());
         final Map<Integer, Film> filmMap = films.stream()
                 .collect(Collectors.toMap(Film::getId, film -> film));
 
         for (Integer id : filmMap.keySet()) {
-            List<Genre> genres = jdbcTemplate.query(sqlQuery, GenreDbStorage::makeGenre, id);
-            //todo error
-            filmMap.get(id).setGenres(genres.stream().collect(Collectors.toSet()));
+            List<Genre> genres =  jdbcTemplate.query(sqlQuery, GenreDbStorage::makeGenre, id);
+            LinkedHashSet<Genre>fd = new LinkedHashSet<>(genres);
+            if(genres.size()!=0){
+                filmMap.get(id).setGenres(fd);
+            }
+
         }
     }
 
@@ -78,8 +81,8 @@ public class GenreDbStorage implements GenreStorage {
     }
 
     static Genre makeGenre(ResultSet rs, int rowNum) throws SQLException {
-        return new Genre(rs.getInt("FILMS_ID"),
-                rs.getString("FILMS_GENRES.FILM_GENRE"));
+        return new Genre(rs.getInt("GENRES_ID"),
+                rs.getString("FILM_GENRE"));
 
     }
 }

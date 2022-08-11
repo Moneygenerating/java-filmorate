@@ -8,7 +8,10 @@ public interface GenreStorage {
 
     void setFilmGenre(Film film);
 
+
     void loadFilmGenre(Film film);
+
+
 
     void deleteFilmGenre(Film film);
 
