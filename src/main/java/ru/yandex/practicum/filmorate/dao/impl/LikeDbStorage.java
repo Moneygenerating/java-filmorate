@@ -1,6 +1,8 @@
 package ru.yandex.practicum.filmorate.dao.impl;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.dao.LikeStorage;
 import ru.yandex.practicum.filmorate.model.*;
 
@@ -11,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Repository
+@Primary
 public class LikeDbStorage implements LikeStorage {
     JdbcTemplate jdbcTemplate;
 
@@ -39,7 +43,6 @@ public class LikeDbStorage implements LikeStorage {
         }
     }
 
-
     //загрузка фильмов пролайканных пользователем
     @Override
     public void loadFilmLikes(Film film) {
@@ -49,6 +52,7 @@ public class LikeDbStorage implements LikeStorage {
         //обновляем жанры
         film.setLikes(likes);
     }
+
 
     static Likes makeLike(ResultSet rs, int rowNum) throws SQLException {
         return new Likes((rs.getInt("USER_ID")),

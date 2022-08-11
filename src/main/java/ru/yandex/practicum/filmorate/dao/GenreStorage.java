@@ -10,5 +10,7 @@ public interface GenreStorage {
 
     void loadFilmGenre(Film film);
 
+    void deleteFilmGenre(Film film);
+
     void loadFilmGenre(List<Film> films);
 }

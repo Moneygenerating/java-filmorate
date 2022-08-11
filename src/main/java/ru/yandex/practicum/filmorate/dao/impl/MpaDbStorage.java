@@ -1,6 +1,8 @@
 package ru.yandex.practicum.filmorate.dao.impl;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.dao.MpaStorage;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
@@ -10,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Set;
 
+@Repository
+@Primary
 public class MpaDbStorage implements MpaStorage {
 
     JdbcTemplate jdbcTemplate;

@@ -23,7 +23,7 @@ class FilmServiceTest {
     void init() {
         inMemoryUserStorage = new InMemoryUserStorage();
         inMemoryFilmStorage = new InMemoryFilmStorage();
-        filmService = new FilmService(inMemoryFilmStorage, inMemoryUserStorage);
+       // filmService = new FilmService(inMemoryFilmStorage, inMemoryUserStorage) toDO заполнить;
 
         film = new Film()
                 .setId(1)

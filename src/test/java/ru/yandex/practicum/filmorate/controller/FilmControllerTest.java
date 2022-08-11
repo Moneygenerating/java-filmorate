@@ -24,7 +24,7 @@ class FilmControllerTest {
     void init() {
         inMemoryUserStorage = new InMemoryUserStorage();
         inMemoryFilmStorage = new InMemoryFilmStorage();
-        filmService = new FilmService(inMemoryFilmStorage, inMemoryUserStorage);
+        //filmService = new FilmService(inMemoryFilmStorage, inMemoryUserStorage) toDO;
         filmController = new FilmController(filmService);
         film = new Film()
                 .setId(1)

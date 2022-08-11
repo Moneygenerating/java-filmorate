@@ -38,19 +38,6 @@ public class GenreDbStorage implements GenreStorage {
             String sqlQueryGenre = "INSERT INTO FILMS_GENRES_IDS (FILMS_ID, FILM_GENRE_ID) VALUES (?,?)";
             jdbcTemplate.update(sqlQueryGenre, film.getId(), genre.getId());
         }
-
-        //реализация через батчи
-        /*
-        List<Object[]> batchArgs= new ArrayList<Object[]>();
-        for(Genre genre: film.getGenres()){
-            Object[] values = new Object[]{film.getId(), genre.getId()};
-            batchArgs.add(values);
-        }
-
-        String sqlQueryGenre = "INSERT INTO FILMS_GENRES_IDS (FILMS_ID, FILM_GENRE_ID) VALUES (?,?)";
-        jdbcTemplate.batchUpdate(sqlQueryGenre, batchArgs);
-        */
-
     }
 
     @Override
@@ -76,6 +63,11 @@ public class GenreDbStorage implements GenreStorage {
             Set<Genre> genres = (Set<Genre>) jdbcTemplate.query(sqlQuery, GenreDbStorage::makeGenre, id);
             filmMap.get(id).setGenres(genres);
         }
+    }
+
+    @Override
+    public void deleteFilmGenre(Film film){
+        //todo
     }
 
     static Genre makeGenre(ResultSet rs, int rowNum) throws SQLException {

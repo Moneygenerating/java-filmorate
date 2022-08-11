@@ -7,6 +7,7 @@ import ru.yandex.practicum.filmorate.dao.FilmStorage;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +19,8 @@ public class InMemoryFilmStorage implements FilmStorage {
     protected Map<Integer, Film> films = new HashMap<>();
 
     @Override
-    public HashMap<Integer, Film> getFilms() {
-        return (HashMap<Integer, Film>) films;
+    public Collection<Film> getFilms() {
+        return films.values();
     }
 
     @Override

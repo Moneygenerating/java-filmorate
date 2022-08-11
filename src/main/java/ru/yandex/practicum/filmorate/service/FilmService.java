@@ -1,9 +1,9 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.dao.FilmStorage;
-import ru.yandex.practicum.filmorate.dao.UserStorage;
+import ru.yandex.practicum.filmorate.dao.*;
 import ru.yandex.practicum.filmorate.exception.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
@@ -11,56 +11,99 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
 public class FilmService {
-    private final FilmStorage inMemoryFilmStorage;
-    private final UserStorage inMemoryUserStorage;
+
+    final FilmStorage filmDbStorage;
+    final GenreStorage genreDbStorage;
+    final LikeStorage likeDbStorage;
+    final MpaStorage mpaStorage;
+    final UserStorage userDbStorage;
 
     @Autowired
-    public FilmService(FilmStorage inMemoryFilmStorage, UserStorage inMemoryUserStorage) {
-        this.inMemoryFilmStorage = inMemoryFilmStorage;
-        this.inMemoryUserStorage = inMemoryUserStorage;
+    public FilmService(FilmStorage filmDbStorage, UserStorage userDbStorage, GenreStorage genreDbStorage,
+                       LikeStorage likeDbStorage, MpaStorage mpaStorage) {
+        this.filmDbStorage = filmDbStorage;
+        this.userDbStorage = userDbStorage;
+        this.genreDbStorage = genreDbStorage;
+        this.likeDbStorage = likeDbStorage;
+        this.mpaStorage = mpaStorage;
     }
 
-    public Collection<Film> findAll() {
-        return inMemoryFilmStorage.getFilms().values();
-    }
 
     public Film createFilm(Film film) {
         checkDescription(film);
         validate(film);
-        if (inMemoryFilmStorage.getFilms().containsKey(film.getId())) {
+        List<Integer> filmsId = filmDbStorage.getFilms().stream().map(Film::getId).collect(Collectors.toList());
+        if (filmsId.contains(film.getId())) {
             throw new FilmExceptions(String.format(
                     "Фильм с таким названием %s уже существует.",
                     film.getName()
             ));
         }
-        return inMemoryFilmStorage.saveFilm(film);
+
+        final Film newFilm = filmDbStorage.saveFilm(film);
+
+        // для List newFilm(когда передали много фильмов)
+        // genreDbStorage.setFilmGenre(Collections.singletonList(newFilm));
+        genreDbStorage.setFilmGenre(film);
+
+        if (film.getLikes() != null) {
+            likeDbStorage.setFilmLikes(film);
+        }
+        return newFilm;
     }
 
     public Film updateFilm(Film film) {
+        //todo разобраться как праивльно апдейтить
         checkDescription(film);
         validate(film);
-        if (!inMemoryFilmStorage.getFilms().containsKey(film.getId())) {
+        List<Integer> filmsId = filmDbStorage.getFilms().stream().map(Film::getId).collect(Collectors.toList());
+        if (!filmsId.contains(film.getId())) {
             throw new FilmNotFoundException(String.format(
                     "Фильм с id %s не найден.",
                     film.getId()
             ));
         }
-        return inMemoryFilmStorage.updateFilm(film);
+        filmDbStorage.deleteFilm(film.getId());
+        final Film newFilm = filmDbStorage.saveFilm(film);
+        genreDbStorage.loadFilmGenre(film);
+        genreDbStorage.setFilmGenre(film);
+        if(film.getLikes()!=null){
+            likeDbStorage.setFilmLikes(film);
+        }
+
+        return newFilm;
     }
 
     public Film findFilmById(Integer id) {
-        if (id == null || inMemoryFilmStorage.getFilm(id) == null) {
+        final Film film = filmDbStorage.getFilm(id);
+        if (id == null || film == null) {
             throw new FilmNotFoundException(String.format(
                     "Фильм с id %s не найден.",
                     id
             ));
         }
-        return inMemoryFilmStorage.getFilm(id);
+        genreDbStorage.loadFilmGenre(Collections.singletonList(film));
+        return film;
     }
+
+
+    public Collection<Film> findAll() {
+        // добавить поменять на эту реализацию List<Film> films = filmDbStorage.getFilms().values();
+        List<Film> films = (List<Film>) filmDbStorage.getFilms();
+
+        genreDbStorage.loadFilmGenre(films);
+
+        for (Film film : films) {
+            genreDbStorage.loadFilmGenre(film);
+        }
+        return films;
+    }
+
 
     void checkDescription(Film film) {
         if (film.getDescription().length() > 200) {
@@ -76,25 +119,24 @@ public class FilmService {
     }
 
     public void addLike(int id, int userId) {
-        if (inMemoryFilmStorage.getFilm(id) == null || inMemoryUserStorage.getUser(userId) == null) {
+        if (filmDbStorage.getFilm(id) == null || userDbStorage.getUser(userId) == null) {
             throw new UserNotFoundException("Пользователи/фильмы с такими id не найдены, поставить лайк не получилось");
         }
 
-        Film film = inMemoryFilmStorage.getFilm(id);
-        User user = inMemoryUserStorage.getUser(userId);
-
-        inMemoryFilmStorage.addLike(film, user);
+        Film film = filmDbStorage.getFilm(id);
+        User user = userDbStorage.getUser(userId);
+        filmDbStorage.addLike(film, user);
     }
 
     public void deleteLike(int id, int userId) {
-        if (inMemoryFilmStorage.getFilm(id) == null || inMemoryUserStorage.getUser(userId) == null) {
+        if (filmDbStorage.getFilm(id) == null || userDbStorage.getUser(userId) == null) {
             throw new UserNotFoundException("Пользователи/фильмы с такими id не найдены, удалить лайк не получилось");
         }
 
-        Film film = inMemoryFilmStorage.getFilm(id);
-        User user = inMemoryUserStorage.getUser(userId);
+        Film film = filmDbStorage.getFilm(id);
+        User user = userDbStorage.getUser(userId);
 
-        inMemoryFilmStorage.deleteLike(film, user);
+        filmDbStorage.deleteLike(film, user);
     }
 
     public Stream<Film> findFilmByCount(Integer count) {
@@ -102,7 +144,7 @@ public class FilmService {
             throw new IncorrectParameterException("count");
         }
 
-        return inMemoryFilmStorage.getFilms().values().stream()
+        return filmDbStorage.getFilms().stream()
                 .sorted((f0, f1) -> {
                     int comp = f0.getUserId().size() - f1.getUserId().size();
                     return comp * -1;

@@ -21,6 +21,7 @@ public class FriendsDbStorage implements FriendsStorage {
     }
 
     //Получить id друзей юзера
+    @Override
     public List<Integer> getFriendsByUserId(int id) {
         final String sqlQuery = "SELECT FRIENDS_ID FROM FRIENDS WHERE USER_ID = ?";
         final List<Friend> friends = jdbcTemplate.query(sqlQuery, FriendsDbStorage::makeFriend, id);
@@ -31,7 +32,6 @@ public class FriendsDbStorage implements FriendsStorage {
         return friends.stream()
                 .map(Friend::getFriendId).collect(Collectors.toList());
     }
-
 
     @Override
     public void setFriends(User user) {
