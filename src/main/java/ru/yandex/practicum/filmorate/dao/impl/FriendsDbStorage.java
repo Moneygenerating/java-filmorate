@@ -10,6 +10,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class FriendsDbStorage implements FriendsStorage {
@@ -51,7 +52,10 @@ public class FriendsDbStorage implements FriendsStorage {
 
     @Override
     public void loadFriends(User user) {
+        String sqlQuery = "SELECT USER_ID,FRIENDS_ID FROM FRIENDS WHERE UER_ID = ?";
+        Set<Friend> friends =(Set<Friend>) jdbcTemplate.query(sqlQuery,FriendsDbStorage::makeFriend,user.getId());
 
+        user.setFriend(friends);
     }
 
     static Friend makeFriend(ResultSet rs, int rowNum) throws SQLException {
