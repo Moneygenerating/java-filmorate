@@ -30,7 +30,7 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     @Override
-    public Collection<Film> getFilms() {
+    public List<Film> getFilms() {
         final String sqlQuery = "SELECT FILM_ID,FILMS_NAME," +
                 "DESCRIPTION,DURATION,RELEASE_DATE,mpa.MPA_ID,mpa.MPA_RATE FROM FILMS AS f " +
                 " JOIN FILM_RATING_MPA as mpa ON f.RATING_MPA = mpa.MPA_ID";

@@ -59,8 +59,9 @@ public class GenreDbStorage implements GenreStorage {
                 .collect(Collectors.toMap(Film::getId, film -> film));
 
         for (Integer id : filmMap.keySet()) {
-            Set<Genre> genres = (Set<Genre>) jdbcTemplate.query(sqlQuery, GenreDbStorage::makeGenre, id);
-            filmMap.get(id).setGenres(genres);
+            List<Genre> genres = jdbcTemplate.query(sqlQuery, GenreDbStorage::makeGenre, id);
+            //todo error
+            filmMap.get(id).setGenres(genres.stream().collect(Collectors.toSet()));
         }
     }
 

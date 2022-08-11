@@ -100,14 +100,11 @@ public class FilmService {
 
     public Collection<Film> findAll() {
         // добавить поменять на эту реализацию List<Film> films = filmDbStorage.getFilms().values();
-        List<Film> films = (List<Film>) filmDbStorage.getFilms();
+        List<Film> films = filmDbStorage.getFilms();
 
         genreDbStorage.loadFilmGenre(films);
         likeDbStorage.loadFilmLikes(films);
 
-        for (Film film : films) {
-            genreDbStorage.loadFilmGenre(film);
-        }
         return films;
     }
 
