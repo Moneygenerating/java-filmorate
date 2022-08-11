@@ -34,7 +34,7 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public Collection<Film> getFilms() {
         final String sqlQuery = "SELECT FILM_ID,FILMS_NAME," +
-                "DESCRIPTION,DURATION,RELEASE_DATE,mpa.MPA_ID,mpa.MPA_RATE FROM FILMS " +
+                "DESCRIPTION,DURATION,RELEASE_DATE,mpa.MPA_ID,mpa.MPA_RATE FROM FILMS AS f " +
                 " JOIN FILM_RATING_MPA as mpa ON f.RATING_MPA = mpa.MPA_ID";
         final List<Film> films = jdbcTemplate.query(sqlQuery, FilmDbStorage::makeFilm);
         return films;
@@ -43,7 +43,7 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public Film getFilm(int filmId) {
         final String sqlQuery = "SELECT FILM_ID,FILMS_NAME," +
-                "DESCRIPTION,DURATION,RELEASE_DATE,mpa.MPA_ID,mpa.MPA_RATE FROM FILMS " +
+                "DESCRIPTION,DURATION,RELEASE_DATE,mpa.MPA_ID,mpa.MPA_RATE FROM FILMS AS f" +
                 " JOIN FILM_RATING_MPA as mpa ON f.RATING_MPA = mpa.MPA_ID WHERE FILM_ID=?";
         final List<Film> films = jdbcTemplate.query(sqlQuery, FilmDbStorage::makeFilm, filmId);
         //задать через сеттер жанры после того как создал фильм
@@ -95,7 +95,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public void deleteFilm(int filmId) {
-        String sqlQuery = "DELETE FROM FILMS WHERE FILMS_ID= ?";
+        String sqlQuery = "DELETE FROM FILMS WHERE FILM_ID= ?";
         jdbcTemplate.update(sqlQuery,filmId);
 
     }

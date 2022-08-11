@@ -62,7 +62,7 @@ public class UserDbStorage implements UserStorage {
 
     //Получить id друзей которые добавили друг друга
     public List<User> getCommonFriendsByUserId(int id, int friendId) {
-        final String sqlQuery = "SELECT u.USER_ID,u.LOGIN,u.NAME,u.EMAIL,u.BIRTHDAY FROM USERS AS u LEFT JOIN FRIENDS AS f " +
+        final String sqlQuery = "SELECT u.USER_ID,u.LOGIN,u.USER_NAME,u.EMAIL,u.BIRTHDAY FROM USERS AS u LEFT JOIN FRIENDS AS f " +
                 "ON u.USER_ID=f.USER_ID WHERE f.USER_ID = ? AND f.FRIENDS_ID = ?";
         final List<User> commonFriendlyUsers = jdbcTemplate.query(sqlQuery,UserDbStorage::makeUser,friendId,id);
 

@@ -23,8 +23,8 @@ public class MpaDbStorage implements MpaStorage {
     }
 
     public void loadFilmMpa(Film film) {
-        String sqlQuery = "SELECT f.FILMS_ID, m.MPA_RATE FROM FILMS AS f JOIN FILM_RATING_MPA AS m ON " +
-                "f.RATING_MPA = m.MPA_ID WHERE FILMS_ID= ?";
+        String sqlQuery = "SELECT f.FILM_ID, m.MPA_RATE FROM FILMS AS f JOIN FILM_RATING_MPA AS m ON " +
+                "f.RATING_MPA = m.MPA_ID WHERE FILM_ID= ?";
 
         Mpa mpa = jdbcTemplate.queryForObject(sqlQuery, MpaDbStorage::makeMpa, film.getId());
         //обновляем жанры

@@ -52,7 +52,7 @@ public class FriendsDbStorage implements FriendsStorage {
 
     @Override
     public void loadFriends(User user) {
-        String sqlQuery = "SELECT USER_ID,FRIENDS_ID FROM FRIENDS WHERE UER_ID = ?";
+        String sqlQuery = "SELECT USER_ID,FRIENDS_ID FROM FRIENDS WHERE USER_ID = ?";
         Set<Friend> friends =(Set<Friend>) jdbcTemplate.query(sqlQuery,FriendsDbStorage::makeFriend,user.getId());
 
         user.setFriend(friends);
