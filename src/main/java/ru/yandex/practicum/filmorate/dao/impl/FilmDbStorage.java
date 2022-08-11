@@ -13,11 +13,10 @@ import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @Primary
@@ -49,6 +48,19 @@ public class FilmDbStorage implements FilmStorage {
             return null;
         }
         return films.get(0);
+    }
+
+    public Set<Film> getFilmsById(Set<Integer> id) {
+        String sqlQuery = "SELECT FILM_ID,FILMS_NAME," +
+                "DESCRIPTION,DURATION,RELEASE_DATE,mpa.MPA_ID,mpa.MPA_RATE FROM FILMS AS f" +
+                " JOIN FILM_RATING_MPA as mpa ON f.RATING_MPA = mpa.MPA_ID WHERE FILM_ID=?";
+
+        List<Film> films = jdbcTemplate.query(sqlQuery, FilmDbStorage::makeFilm, id);
+
+        LinkedHashSet<Film> fd = new LinkedHashSet<>(films);
+
+        return fd;
+
     }
 
     static Film makeFilm(ResultSet rs, int rowNum) throws SQLException {

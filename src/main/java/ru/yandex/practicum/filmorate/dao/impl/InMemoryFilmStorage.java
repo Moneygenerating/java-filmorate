@@ -7,10 +7,7 @@ import ru.yandex.practicum.filmorate.dao.FilmStorage;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,6 +20,11 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public List<Film> getFilms() {
         return films.values().stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public Set<Film> getFilmsById(Set<Integer> id){
+        return null;
     }
 
     @Override

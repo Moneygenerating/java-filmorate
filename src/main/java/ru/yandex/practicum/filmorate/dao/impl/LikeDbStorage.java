@@ -48,12 +48,9 @@ public class LikeDbStorage implements LikeStorage {
     @Override
     public void loadFilmLikes(Film film) {
         String sqlQuery = "SELECT USER_ID, FILM_ID FROM FILM_LIKES WHERE FILM_ID= ?";
-
         List<Likes> likes = jdbcTemplate.query(sqlQuery, LikeDbStorage::makeLike, film.getId());
-
         LinkedHashSet<Likes> likeSet = new LinkedHashSet<>(likes);
-
-        if(likeSet.size()!=0) {
+        if (likeSet.size() != 0) {
             film.setLikes(likeSet);
         }
     }
@@ -67,8 +64,7 @@ public class LikeDbStorage implements LikeStorage {
         for (Integer id : filmMap.keySet()) {
             List<Likes> likes = jdbcTemplate.query(sqlQuery, LikeDbStorage::makeLike, id);
             LinkedHashSet<Likes> likeSet = new LinkedHashSet<>(likes);
-
-            if(likeSet.size()!=0){
+            if (likeSet.size() != 0) {
                 filmMap.get(id).setLikes(likeSet);
             }
         }
@@ -76,7 +72,7 @@ public class LikeDbStorage implements LikeStorage {
 
 
     @Override
-    public void deleteFilmLikes(Film film){
+    public void deleteFilmLikes(Film film) {
         String sqlQuery = "DELETE FROM FILM_LIKES WHERE FILM_ID= ?";
 
         if (film.getLikes() == null || film.getLikes().isEmpty()) {
@@ -86,6 +82,13 @@ public class LikeDbStorage implements LikeStorage {
         }
     }
 
+    @Override
+    public Set<Integer> getTopFilmsByParams(int count){
+        String sqlQuery = "SELECT FILM_ID FROM FILM_LIKES GROUP BY FILM_ID ORDER BY COUNT(FILM_ID) DESC LIMIT ?";
+        List<Integer> likes = jdbcTemplate.queryForList(sqlQuery, Integer.class,count);
+        LinkedHashSet<Integer>id = new LinkedHashSet<>(likes);
+        return id;
+    }
 
     static Likes makeLike(ResultSet rs, int rowNum) throws SQLException {
         return new Likes((rs.getInt("USER_ID")),

@@ -6,6 +6,7 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Set;
 
 public interface LikeStorage {
     void setFilmLikes(Film film);
@@ -14,6 +15,7 @@ public interface LikeStorage {
 
     void loadFilmLikes(List<Film> films);
 
+    Set<Integer> getTopFilmsByParams(int count);
 
     void deleteFilmLikes(Film film);
 

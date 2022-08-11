@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.dao.*;
 import ru.yandex.practicum.filmorate.exception.*;
@@ -103,8 +104,8 @@ public class FilmService {
     public Collection<Film> findAll() {
         List<Film> films = filmDbStorage.getFilms();
 
-            genreDbStorage.loadFilmGenre(films);
-            likeDbStorage.loadFilmLikes(films);
+        genreDbStorage.loadFilmGenre(films);
+        likeDbStorage.loadFilmLikes(films);
 
         return films;
     }
@@ -122,6 +123,7 @@ public class FilmService {
             throw new FilmExceptions("Некорректная дата выпуска фильма");
         }
     }
+
     //toDO
     public void addLike(int id, int userId) {
         if (filmDbStorage.getFilm(id) == null || userDbStorage.getUser(userId) == null) {
@@ -148,12 +150,22 @@ public class FilmService {
         if (count < 0) {
             throw new IncorrectParameterException("count");
         }
+        //toDO
+        Set<Integer> id = likeDbStorage.getTopFilmsByParams(count);
+        return filmDbStorage.getFilmsById(id).stream();
+        /*
+        List<Film> films = filmDbStorage.getFilms();
 
-        return filmDbStorage.getFilms().stream()
+        genreDbStorage.loadFilmGenre(films);
+        likeDbStorage.loadFilmLikes(films);
+        return films.stream()
                 .sorted((f0, f1) -> {
-                    int comp = f0.getUserId().size() - f1.getUserId().size();
+                    int comp = f0.getLikes().toArray().length - f1.getLikes().toArray().length;
                     return comp * -1;
                 })
                 .limit(count);
+
+         */
+
     }
 }
