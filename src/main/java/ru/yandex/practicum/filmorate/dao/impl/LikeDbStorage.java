@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -48,9 +49,13 @@ public class LikeDbStorage implements LikeStorage {
     public void loadFilmLikes(Film film) {
         String sqlQuery = "SELECT USER_ID, FILM_ID FROM FILM_LIKES WHERE FILM_ID= ?";
 
-        Set<Likes> likes = (Set<Likes>) jdbcTemplate.query(sqlQuery, LikeDbStorage::makeLike, film.getId());
-        //обновляем жанры
-        film.setLikes(likes);
+        List<Likes> likes = jdbcTemplate.query(sqlQuery, LikeDbStorage::makeLike, film.getId());
+
+        LinkedHashSet<Likes> likeSet = new LinkedHashSet<>(likes);
+
+        if(likeSet.size()!=0) {
+            film.setLikes(likeSet);
+        }
     }
 
     @Override
@@ -60,8 +65,12 @@ public class LikeDbStorage implements LikeStorage {
                 .collect(Collectors.toMap(Film::getId, film -> film));
 
         for (Integer id : filmMap.keySet()) {
-            Set<Likes> likes = (Set<Likes>) jdbcTemplate.query(sqlQuery, LikeDbStorage::makeLike, id);
-            filmMap.get(id).setLikes(likes);
+            List<Likes> likes = jdbcTemplate.query(sqlQuery, LikeDbStorage::makeLike, id);
+            LinkedHashSet<Likes> likeSet = new LinkedHashSet<>(likes);
+
+            if(likeSet.size()!=0){
+                filmMap.get(id).setLikes(likeSet);
+            }
         }
     }
 

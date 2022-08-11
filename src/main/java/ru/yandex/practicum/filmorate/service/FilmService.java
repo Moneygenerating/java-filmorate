@@ -104,7 +104,7 @@ public class FilmService {
         List<Film> films = filmDbStorage.getFilms();
 
             genreDbStorage.loadFilmGenre(films);
-            //likeDbStorage.loadFilmLikes(films);
+            likeDbStorage.loadFilmLikes(films);
 
         return films;
     }
