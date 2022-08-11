@@ -33,6 +33,8 @@ public class Film {
     private Mpa ratingMpa;
     @Positive
     private Integer duration;
+    //@JsonIgnore
+    private Set<Likes> likes;
     @JsonIgnore
     private Set<Integer> userId = new HashSet<>();
 
