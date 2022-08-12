@@ -2,7 +2,12 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.jdbc.core.JdbcTemplate;
+import ru.yandex.practicum.filmorate.dao.FilmStorage;
+import ru.yandex.practicum.filmorate.dao.LikeStorage;
+import ru.yandex.practicum.filmorate.dao.UserStorage;
 import ru.yandex.practicum.filmorate.dao.impl.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.dao.impl.UserDbStorage;
 import ru.yandex.practicum.filmorate.exception.InvalidEmailException;
 import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
@@ -14,15 +19,18 @@ import java.time.Month;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTest {
-    InMemoryUserStorage inMemoryUserStorage;
+    UserStorage userDbStorage;
+    JdbcTemplate jdbcTemplate;
+    FilmStorage filmDbStorage;
+    LikeStorage likesDbStorage;
     UserService userService;
     User user;
     User user2;
 
     @BeforeEach
     void init() {
-        inMemoryUserStorage = new InMemoryUserStorage();
-        userService = new UserService(inMemoryUserStorage);
+        userDbStorage = new UserDbStorage(jdbcTemplate);
+        userService = new UserService(userDbStorage, filmDbStorage, likesDbStorage);
         user = new User()
                 .setId(1)
                 .setName("The Shadow")
