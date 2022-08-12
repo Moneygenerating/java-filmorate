@@ -20,10 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTest {
     UserStorage userDbStorage;
-
     FriendsStorage friendsDbStorage;
     JdbcTemplate jdbcTemplate;
-    FilmStorage filmDbStorage;
     LikeStorage likesDbStorage;
     UserService userService;
     User user;
@@ -32,7 +30,7 @@ class UserServiceTest {
     @BeforeEach
     void init() {
         userDbStorage = new UserDbStorage(jdbcTemplate);
-        userService = new UserService(userDbStorage, filmDbStorage, likesDbStorage,friendsDbStorage);
+        userService = new UserService(userDbStorage, likesDbStorage,friendsDbStorage);
         user = new User()
                 .setId(1)
                 .setName("The Shadow")

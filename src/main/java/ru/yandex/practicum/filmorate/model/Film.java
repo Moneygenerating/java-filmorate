@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -35,10 +33,6 @@ public class Film {
     //@JsonIgnore
     private Set<Likes> likes;
 
-    @JsonIgnore
-    private Set<Integer> userId = new HashSet<>();
-
-    //toDO убрать левые поля
     public Film(int film_id, String films_name, String description,
                 int duration, LocalDate release_date, Mpa mpa) {
         this.id = film_id;

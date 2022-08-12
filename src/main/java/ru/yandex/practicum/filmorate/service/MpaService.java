@@ -12,7 +12,6 @@ import java.util.Set;
 @Service
 public class MpaService {
     final MpaStorage mpaDbStorage;
-
     @Autowired
     public MpaService(MpaStorage mpaDbStorage) {
         this.mpaDbStorage = mpaDbStorage;
@@ -31,7 +30,6 @@ public class MpaService {
                     mpaId
             ));
         }
-
         final Mpa mpaById = mpaDbStorage.getMpaById(mpaId);
         return mpaById;
     }

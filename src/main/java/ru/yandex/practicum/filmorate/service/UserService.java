@@ -23,17 +23,15 @@ import java.util.stream.Stream;
 public class UserService {
 
     private final UserStorage userDbStorage;
-    private final FilmStorage filmDbStorage;
     private final LikeStorage likeDbStorage;
 
     private final FriendsStorage friendsDbStorage;
 
 
     @Autowired
-    public UserService(UserStorage userDbStorage, FilmStorage filmDbStorage
-            , LikeStorage likeDbStorage, FriendsStorage friendsDbStorage) {
+    public UserService(UserStorage userDbStorage, LikeStorage likeDbStorage,
+                       FriendsStorage friendsDbStorage) {
         this.userDbStorage = userDbStorage;
-        this.filmDbStorage = filmDbStorage;
         this.likeDbStorage = likeDbStorage;
         this.friendsDbStorage = friendsDbStorage;
     }
@@ -178,10 +176,9 @@ public class UserService {
                 .stream()
                 .filter(x -> x.getFriend() != null);
 
-        //toDO протестить с изменениями которые ide предлагает
         return userStreamFilteredNull.filter(u -> id.equals(u.getId()) || otherId.equals(u.getId()))
                 .map(User::getFriend)
-                .flatMap(Collection::stream).map(friend -> friend.getFriendId())
+                .flatMap(Collection::stream).map(Friend::getFriendId)
                 // Creates a map type -> {4:1, 5:2, 7:2, 8:2, 9:1}
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet()

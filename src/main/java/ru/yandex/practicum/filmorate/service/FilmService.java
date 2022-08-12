@@ -45,9 +45,6 @@ public class FilmService {
 
         final Film newFilm = filmDbStorage.saveFilm(film);
 
-        // для List newFilm(когда передали много фильмов)
-        // genreDbStorage.setFilmGenre(Collections.singletonList(newFilm));
-
         genreDbStorage.setFilmGenre(film);
         genreDbStorage.loadFilmGenre(newFilm);
 

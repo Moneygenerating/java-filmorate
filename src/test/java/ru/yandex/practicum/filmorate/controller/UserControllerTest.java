@@ -21,7 +21,6 @@ class UserControllerTest {
 
     FriendsStorage friendsDbStorage;
     JdbcTemplate jdbcTemplate;
-    FilmStorage filmDbStorage;
     LikeStorage likesDbStorage;
     UserService userService;
     UserController userController;
@@ -31,7 +30,7 @@ class UserControllerTest {
     @BeforeEach
     void init() {
         userDbStorage = new UserDbStorage(jdbcTemplate);
-        userService = new UserService(userDbStorage, filmDbStorage,likesDbStorage, friendsDbStorage);
+        userService = new UserService(userDbStorage,likesDbStorage, friendsDbStorage);
         userController = new UserController(userService);
 
         user = new User()

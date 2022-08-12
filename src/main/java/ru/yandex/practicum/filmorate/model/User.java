@@ -21,23 +21,17 @@ public class User {
     //валидация через аннотацию
     @NotBlank
     private String login;
-
     private String name;
     @Email
     private String email;
-
     @Past
     private LocalDate birthday;
-    @JsonIgnore
-    private Set<Integer> friendIdSet = new HashSet<>();
     //для друга
     @JsonIgnore
     private Set<Friend> friend;
 
     @JsonIgnore
     private Set<Likes> userLikes;
-
-    //toDO убрать левые поля
     public User(int user_id, String login, String name, String email, LocalDate birthday) {
         this.id = user_id;
         this.login = login;
