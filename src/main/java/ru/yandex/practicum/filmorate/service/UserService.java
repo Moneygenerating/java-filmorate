@@ -11,12 +11,14 @@ import ru.yandex.practicum.filmorate.exception.UserAlreadyExistException;
 import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Friend;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -155,8 +157,12 @@ public class UserService {
             throw new UserNotFoundException("Пользователь с таким id не найден.");
         }
 
-        Set<User> users = userDbStorage.getUserFriendsById(id);
-        return users.stream();
+        //Set<User> users = userDbStorage.getUserFriendsById(id);
+        //return users.stream();
+        User user = userDbStorage.getUser(id);
+        friendsDbStorage.loadFriends(user);
+        return user.getFriend().stream().mapToInt(Friend::getFriendId)
+                .mapToObj(userDbStorage::getUser);
     }
 
     // список друзей, общих с другим пользователем.
@@ -169,10 +175,18 @@ public class UserService {
             throw new UserNotFoundException("Пользователь с таким вторым id не найден.");
         }
 
-        return userDbStorage.getUsers().stream()
-                .filter(u -> id.equals(u.getId()) || otherId.equals(u.getId()))
-                .map(User::getFriendId)
-                .flatMap(Collection::stream)
+        List<User> users = userDbStorage.getUsers();
+        friendsDbStorage.loadFriends(users);
+
+        Stream<User> fd = Optional.ofNullable(users)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .filter(x -> x.getFriend() != null);
+
+
+        return fd.filter(u -> id.equals(u.getId()) || otherId.equals(u.getId()))
+                .map(User::getFriend)
+                .flatMap(Collection::stream).map(friend -> friend.getFriendId())
                 // Creates a map type -> {4:1, 5:2, 7:2, 8:2, 9:1}
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet()

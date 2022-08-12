@@ -101,15 +101,16 @@ public class UserDbStorage implements UserStorage {
 
     //Получить друзей пользователя
     @Override
-    public Set<User> getUserFriendsById(int id){
+    public Set<User> getUserFriendsById(int id) {
         String sqlQuery = "SELECT * FROM USERS AS u LEFT JOIN FRIENDS AS f ON u.USER_ID = f.USER_ID WHERE f.FRIENDS_ID = ?";
-        List<User> users = jdbcTemplate.query(sqlQuery, UserDbStorage::makeUser,id);
+        List<User> users = jdbcTemplate.query(sqlQuery, UserDbStorage::makeUser, id);
         LinkedHashSet<User> us = new LinkedHashSet<>(users);
         return us;
     }
+
     @Override
     public User updateUser(User user) {
-        String sqlQuery = "UPDATE USERS SET USER_NAME = ?,LOGIN = ?,EMAIL =?, BIRTHDAY =? WHERE FILM_ID=?";
+        String sqlQuery = "UPDATE USERS SET USER_NAME = ?,LOGIN = ?,EMAIL =?, BIRTHDAY =? WHERE USER_ID=?";
 
         jdbcTemplate.update(sqlQuery
                 , user.getName()
@@ -123,13 +124,13 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public void addFriend(Integer userId, Integer friendId) {
-        String sqlQuery = "SELECT USER_ID, FILM_ID FROM FILM_LIKES WHERE USER_ID= ?";
+        String sqlQuery = "INSERT INTO FRIENDS (USER_ID, FRIENDS_ID) VALUES (?,?)";
         jdbcTemplate.update(sqlQuery, userId, friendId);
     }
 
     @Override
     public void deleteFriend(Integer friendId) {
-        String sqlQuery = "DELETE FROM FILM_LIKES WHERE FRIEND_ID= ?";
+        String sqlQuery = "DELETE FROM FRIENDS WHERE FRIENDS_ID= ?";
         jdbcTemplate.update(sqlQuery, friendId);
     }
 

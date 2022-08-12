@@ -25,10 +25,11 @@ public class User {
     private String name;
     @Email
     private String email;
+
     @Past
     private LocalDate birthday;
     @JsonIgnore
-    private Set<Integer> friendId = new HashSet<>();
+    private Set<Integer> friendIdSet = new HashSet<>();
     //для друга
     @JsonIgnore
     private Set<Friend> friend;
