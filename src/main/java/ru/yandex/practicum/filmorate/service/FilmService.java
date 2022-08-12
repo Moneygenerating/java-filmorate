@@ -73,6 +73,7 @@ public class FilmService {
             ));
         }
         //удаляем по фильму связи лайков и жанров
+
         genreDbStorage.deleteFilmGenre(film);
         likeDbStorage.deleteFilmLikes(film);
 
