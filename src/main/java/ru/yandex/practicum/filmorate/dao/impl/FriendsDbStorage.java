@@ -1,12 +1,10 @@
 package ru.yandex.practicum.filmorate.dao.impl;
 
-import com.sun.jdi.IntegerValue;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.dao.FriendsStorage;
 import ru.yandex.practicum.filmorate.model.Friend;
-import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.ResultSet;
@@ -14,7 +12,6 @@ import java.sql.SQLException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository

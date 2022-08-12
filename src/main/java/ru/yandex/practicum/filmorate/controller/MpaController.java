@@ -17,12 +17,12 @@ public class MpaController {
     private final MpaService mpaService;
     private static final Logger log = LoggerFactory.getLogger(FilmController.class);
 
-    public MpaController(MpaService mpaService){
+    public MpaController(MpaService mpaService) {
         this.mpaService = mpaService;
     }
 
     @GetMapping
-    public Collection<Mpa> findAll(){
+    public Collection<Mpa> findAll() {
         log.info("Выполнен запрос /get на получение списка Mpa");
         return mpaService.findAll();
     }

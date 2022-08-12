@@ -7,15 +7,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.dao.UserStorage;
-import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.Friend;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
 @Primary
@@ -41,18 +38,6 @@ public class UserDbStorage implements UserStorage {
         if (users.size() != 1) {
             return null;
         }
-        /*
-        final List<Map<String, Object>> maps = jdbcTemplate.queryForList(sqlQuery);
-        final Object value = maps.get(0).values().iterator().next();
-        Integer value2 = jdbcTemplate.queryForObject(sqlQuery, Integer.class);
-
-        jdbcTemplate.queryForList(sqlQuery);
-        rs.getInteger("USER_ID");
-
-        //как count сделать
-        final String sqlSingle = "SELECT COUNT(USER_ID) FROM USERS WHERE LOGIN = ?";
-        Integer countLogins =  jdbcTemplate.queryForObject(sqlSingle, Integer.class);
-         */
         return users.get(0);
     }
 

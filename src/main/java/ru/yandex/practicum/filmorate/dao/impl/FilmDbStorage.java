@@ -8,15 +8,12 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.dao.FilmStorage;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Mpa;
-import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
 @Primary
@@ -120,9 +117,7 @@ public class FilmDbStorage implements FilmStorage {
                 "ON f.FILM_ID = fl.FILM_ID GROUP BY f.FILM_ID ORDER BY COUNT(fl.FILM_ID) DESC LIMIT ?";
 
         List<Film> films = jdbcTemplate.query(sqlQuery, FilmDbStorage::makeFilm, id);
-
         LinkedHashSet<Film> fd = new LinkedHashSet<>(films);
-
         return fd;
     }
 

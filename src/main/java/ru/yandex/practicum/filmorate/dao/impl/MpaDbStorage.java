@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.dao.MpaStorage;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.sql.ResultSet;
@@ -20,7 +19,7 @@ public class MpaDbStorage implements MpaStorage {
 
     JdbcTemplate jdbcTemplate;
 
-    public MpaDbStorage(JdbcTemplate jdbcTemplate){
+    public MpaDbStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -31,10 +30,10 @@ public class MpaDbStorage implements MpaStorage {
         Mpa mpa = jdbcTemplate.queryForObject(sqlQuery, MpaDbStorage::makeMpa, film.getId());
         //обновляем жанры
         film.setRatingMpa(mpa);
-
     }
+
     @Override
-    public Set<Mpa> getMpaAll(){
+    public Set<Mpa> getMpaAll() {
         String sqlQuery = "SELECT * FROM FILM_RATING_MPA";
         List<Mpa> mpa = jdbcTemplate.query(sqlQuery, MpaDbStorage::makeMpaGenre);
         LinkedHashSet<Mpa> mpaSet = new LinkedHashSet<>(mpa);
@@ -42,7 +41,7 @@ public class MpaDbStorage implements MpaStorage {
     }
 
     @Override
-    public Mpa getMpaById(Integer mpaId){
+    public Mpa getMpaById(Integer mpaId) {
         String sqlQuery = "SELECT * FROM FILM_RATING_MPA WHERE MPA_ID = ?";
         Mpa mpa = jdbcTemplate.queryForObject(sqlQuery, MpaDbStorage::makeMpaGenre, mpaId);
         return mpa;

@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -23,6 +22,7 @@ public class LikeDbStorage implements LikeStorage {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    //todo delete
     public void addFilmLikeByUserId(int userId, int filmId) {
         String sqlQueryGenre = "INSERT INTO FILM_LIKES (USER_ID, FILM_ID) VALUES (?,?)";
         jdbcTemplate.update(sqlQueryGenre, userId, filmId);
@@ -133,17 +133,6 @@ public class LikeDbStorage implements LikeStorage {
             jdbcTemplate.update(sqlQuery, user.getId());
         }
     }
-
-    /*
-    @Override
-    public Set<Integer> getTopFilmsByParams(int count){
-        String sqlQuery = "SELECT FILM_ID, COUNT(FILM_ID) FROM FILM_LIKES GROUP BY FILM_ID ORDER BY COUNT(FILM_ID) DESC";
-        List<Integer> likes = jdbcTemplate.queryForList(sqlQuery, Integer.class);
-        LinkedHashSet<Integer>id = new LinkedHashSet<>(likes);
-        return id;
-    }
-
-     */
 
     static Likes makeLike(ResultSet rs, int rowNum) throws SQLException {
         return new Likes((rs.getInt("USER_ID")),

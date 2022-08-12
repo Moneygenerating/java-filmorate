@@ -1,13 +1,10 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.dao.*;
 import ru.yandex.practicum.filmorate.exception.*;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -61,8 +58,6 @@ public class FilmService {
     }
 
     public Film updateFilm(Film film) {
-        //todo переписать update так, чтобы возвращался не тот же фильм или юзер, а чтобы ответ возвращался апдейта
-        //todo а потом уже тут запрашивался новый юзер фильм  из бд и возвращался обратно
         checkDescription(film);
         validate(film);
         List<Integer> filmsId = filmDbStorage.getFilms().stream().map(Film::getId).collect(Collectors.toList());

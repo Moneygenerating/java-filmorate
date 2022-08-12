@@ -37,6 +37,7 @@ public class User {
     @JsonIgnore
     private Set<Likes> userLikes;
 
+    //toDO убрать левые поля
     public User(int user_id, String login, String name, String email, LocalDate birthday) {
         this.id = user_id;
         this.login = login;
