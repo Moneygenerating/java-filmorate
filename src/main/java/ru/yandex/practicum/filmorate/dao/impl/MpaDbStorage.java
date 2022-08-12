@@ -10,6 +10,8 @@ import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -31,10 +33,30 @@ public class MpaDbStorage implements MpaStorage {
         film.setRatingMpa(mpa);
 
     }
+    @Override
+    public Set<Mpa> getMpaAll(){
+        String sqlQuery = "SELECT * FROM FILM_RATING_MPA";
+        List<Mpa> mpa = jdbcTemplate.query(sqlQuery, MpaDbStorage::makeMpaGenre);
+        LinkedHashSet<Mpa> mpaSet = new LinkedHashSet<>(mpa);
+        return mpaSet;
+    }
+
+    @Override
+    public Mpa getMpaById(Integer mpaId){
+        String sqlQuery = "SELECT * FROM FILM_RATING_MPA WHERE MPA_ID = ?";
+        Mpa mpa = jdbcTemplate.queryForObject(sqlQuery, MpaDbStorage::makeMpaGenre, mpaId);
+        return mpa;
+    }
 
     static Mpa makeMpa(ResultSet rs, int rowNum) throws SQLException {
         return new Mpa(rs.getInt("FILM_ID"),
                 rs.getString("FILM_RATING_MPA.MPA_RATE"));
+
+    }
+
+    static Mpa makeMpaGenre(ResultSet rs, int rowNum) throws SQLException {
+        return new Mpa(rs.getInt("MPA_ID"),
+                rs.getString("MPA_RATE"));
 
     }
 }

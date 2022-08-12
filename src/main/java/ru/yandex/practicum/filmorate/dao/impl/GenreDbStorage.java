@@ -49,7 +49,6 @@ public class GenreDbStorage implements GenreStorage {
 
     }
 
-
     @Override
     public void loadFilmGenre(List<Film> films) {
         String sqlQuery = "SELECT g.GENRES_ID, g.FILM_GENRE FROM FILMS_GENRES_IDS AS fgi LEFT JOIN FILM_GENRES AS g ON " +
