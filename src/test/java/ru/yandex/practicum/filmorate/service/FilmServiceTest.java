@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.yandex.practicum.filmorate.dao.impl.FilmDbStorage;
-import ru.yandex.practicum.filmorate.dao.impl.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.dao.impl.UserDbStorage;
 import ru.yandex.practicum.filmorate.exception.*;
 import ru.yandex.practicum.filmorate.model.Film;
 
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FilmServiceTest {
     FilmDbStorage filmDbStorage;
-    InMemoryUserStorage inMemoryUserStorage;
+    UserDbStorage userDbStorage;
     JdbcTemplate jdbcTemplate;
     FilmService filmService;
     Film film;
@@ -23,7 +23,7 @@ class FilmServiceTest {
 
     @BeforeEach
     void init() {
-        inMemoryUserStorage = new InMemoryUserStorage();
+        userDbStorage = new UserDbStorage(jdbcTemplate);
         filmDbStorage = new FilmDbStorage(jdbcTemplate);
        // filmService = new Fil
         // mService(inMemoryFilmStorage, inMemoryUserStorage) toDO заполнить;

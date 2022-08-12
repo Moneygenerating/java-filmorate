@@ -4,9 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.yandex.practicum.filmorate.dao.FilmStorage;
+import ru.yandex.practicum.filmorate.dao.FriendsStorage;
 import ru.yandex.practicum.filmorate.dao.LikeStorage;
 import ru.yandex.practicum.filmorate.dao.UserStorage;
-import ru.yandex.practicum.filmorate.dao.impl.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.dao.impl.UserDbStorage;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTest {
     UserStorage userDbStorage;
+
+    FriendsStorage friendsDbStorage;
     JdbcTemplate jdbcTemplate;
     FilmStorage filmDbStorage;
     LikeStorage likesDbStorage;
@@ -29,7 +31,7 @@ class UserControllerTest {
     @BeforeEach
     void init() {
         userDbStorage = new UserDbStorage(jdbcTemplate);
-        userService = new UserService(userDbStorage, filmDbStorage,likesDbStorage);
+        userService = new UserService(userDbStorage, filmDbStorage,likesDbStorage, friendsDbStorage);
         userController = new UserController(userService);
 
         user = new User()

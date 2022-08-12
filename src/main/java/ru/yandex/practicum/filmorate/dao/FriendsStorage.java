@@ -10,5 +10,9 @@ public interface FriendsStorage {
 
     void loadFriends(User user);
 
+    void loadFriends(List<User> user);
+
+    void deleteUserFriends(User user);
+
     List<Integer> getFriendsByUserId(int id);
 }

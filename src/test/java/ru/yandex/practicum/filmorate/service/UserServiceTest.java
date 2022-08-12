@@ -4,9 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.yandex.practicum.filmorate.dao.FilmStorage;
+import ru.yandex.practicum.filmorate.dao.FriendsStorage;
 import ru.yandex.practicum.filmorate.dao.LikeStorage;
 import ru.yandex.practicum.filmorate.dao.UserStorage;
-import ru.yandex.practicum.filmorate.dao.impl.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.dao.impl.UserDbStorage;
 import ru.yandex.practicum.filmorate.exception.InvalidEmailException;
 import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTest {
     UserStorage userDbStorage;
+
+    FriendsStorage friendsDbStorage;
     JdbcTemplate jdbcTemplate;
     FilmStorage filmDbStorage;
     LikeStorage likesDbStorage;
@@ -30,7 +32,7 @@ class UserServiceTest {
     @BeforeEach
     void init() {
         userDbStorage = new UserDbStorage(jdbcTemplate);
-        userService = new UserService(userDbStorage, filmDbStorage, likesDbStorage);
+        userService = new UserService(userDbStorage, filmDbStorage, likesDbStorage,friendsDbStorage);
         user = new User()
                 .setId(1)
                 .setName("The Shadow")

@@ -33,6 +33,9 @@ public class User {
     @JsonIgnore
     private Set<Friend> friend;
 
+    @JsonIgnore
+    private Set<Likes> userLikes;
+
     public User(int user_id, String login, String name, String email, LocalDate birthday) {
         this.id = user_id;
         this.login = login;

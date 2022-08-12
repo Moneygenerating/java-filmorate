@@ -10,11 +10,18 @@ import java.util.Set;
 
 public interface LikeStorage {
     void setFilmLikes(Film film);
+    void setFilmLikesByUser(User user);
 
     void loadFilmLikes(Film film);
+
+    void loadFilmLikesByUser(User user);
+
+    void loadFilmLikesByUser(List<User> user);
 
     void loadFilmLikes(List<Film> films);
 
     void deleteFilmLikes(Film film);
+
+    void deleteFilmLikesByUser(User user);
 
 }

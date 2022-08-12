@@ -61,6 +61,8 @@ public class FilmService {
     }
 
     public Film updateFilm(Film film) {
+        //todo переписать update так, чтобы возвращался не тот же фильм или юзер, а чтобы ответ возвращался апдейта
+        //todo а потом уже тут запрашивался новый юзер фильм  из бд и возвращался обратно
         checkDescription(film);
         validate(film);
         List<Integer> filmsId = filmDbStorage.getFilms().stream().map(Film::getId).collect(Collectors.toList());
@@ -87,13 +89,16 @@ public class FilmService {
     }
 
     public Film findFilmById(Integer id) {
-        final Film film = filmDbStorage.getFilm(id);
-        if (id == null || film == null) {
+
+        if (id == null || filmDbStorage.getFilm(id) == null) {
+
             throw new FilmNotFoundException(String.format(
                     "Фильм с id %s не найден.",
                     id
             ));
         }
+
+        final Film film = filmDbStorage.getFilm(id);
         genreDbStorage.loadFilmGenre(Collections.singletonList(film));
         return film;
     }
@@ -125,8 +130,8 @@ public class FilmService {
         if (filmDbStorage.getFilm(id) == null || userDbStorage.getUser(userId) == null) {
             throw new UserNotFoundException("Пользователи/фильмы с такими id не найдены, поставить лайк не получилось");
         }
-        filmDbStorage.addLike(id, userId);
 
+        filmDbStorage.addLike(id, userId);
     }
 
     public void deleteLike(int filmId, int userId) {
