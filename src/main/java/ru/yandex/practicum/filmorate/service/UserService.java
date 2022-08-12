@@ -10,6 +10,7 @@ import ru.yandex.practicum.filmorate.exception.InvalidEmailException;
 import ru.yandex.practicum.filmorate.exception.UserAlreadyExistException;
 import ru.yandex.practicum.filmorate.exception.UserBirthdayException;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
+import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
@@ -154,9 +155,8 @@ public class UserService {
             throw new UserNotFoundException("Пользователь с таким id не найден.");
         }
 
-        return userDbStorage.getUser(id).getFriendId()
-                .stream()
-                .map(userDbStorage::getUser);
+        Set<User> users = userDbStorage.getUserFriendsById(id);
+        return users.stream();
     }
 
     // список друзей, общих с другим пользователем.

@@ -12,10 +12,9 @@ import ru.yandex.practicum.filmorate.model.Friend;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -100,6 +99,14 @@ public class UserDbStorage implements UserStorage {
         return user;
     }
 
+    //Получить друзей пользователя
+    @Override
+    public Set<User> getUserFriendsById(int id){
+        String sqlQuery = "SELECT * FROM USERS AS u LEFT JOIN FRIENDS AS f ON u.USER_ID = f.USER_ID WHERE f.FRIENDS_ID = ?";
+        List<User> users = jdbcTemplate.query(sqlQuery, UserDbStorage::makeUser,id);
+        LinkedHashSet<User> us = new LinkedHashSet<>(users);
+        return us;
+    }
     @Override
     public User updateUser(User user) {
         String sqlQuery = "UPDATE USERS SET USER_NAME = ?,LOGIN = ?,EMAIL =?, BIRTHDAY =? WHERE FILM_ID=?";
