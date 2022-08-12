@@ -64,7 +64,6 @@ public class GenreDbStorage implements GenreStorage {
             if(genres.size()!=0){
                 filmMap.get(id).setGenres(fd);
             }
-
         }
     }
 

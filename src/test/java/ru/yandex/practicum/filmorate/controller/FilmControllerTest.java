@@ -2,7 +2,8 @@ package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.dao.impl.InMemoryFilmStorage;
+import org.springframework.jdbc.core.JdbcTemplate;
+import ru.yandex.practicum.filmorate.dao.impl.FilmDbStorage;
 import ru.yandex.practicum.filmorate.dao.impl.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
@@ -13,7 +14,8 @@ import java.time.Month;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FilmControllerTest {
-    InMemoryFilmStorage inMemoryFilmStorage;
+    FilmDbStorage filmDbStorage;
+    JdbcTemplate jdbcTemplate;
     InMemoryUserStorage inMemoryUserStorage;
     FilmService filmService;
     FilmController filmController;
@@ -23,7 +25,7 @@ class FilmControllerTest {
     @BeforeEach
     void init() {
         inMemoryUserStorage = new InMemoryUserStorage();
-        inMemoryFilmStorage = new InMemoryFilmStorage();
+        filmDbStorage = new FilmDbStorage(jdbcTemplate);
         //filmService = new FilmService(inMemoryFilmStorage, inMemoryUserStorage) toDO;
         filmController = new FilmController(filmService);
         film = new Film()

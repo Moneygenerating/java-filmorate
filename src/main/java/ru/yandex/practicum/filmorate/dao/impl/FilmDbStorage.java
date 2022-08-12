@@ -134,12 +134,14 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     @Override
-    public void addLike(Film film, User user) {
-
+    public void addLike(Integer id, Integer userId) {
+        String sqlQuery = "INSERT INTO FILM_LIKES (USER_ID, FILM_ID) VALUES (?,?)";
+        jdbcTemplate.update(sqlQuery, userId, id);
     }
 
     @Override
-    public void deleteLike(Film film, User user) {
-
+    public void deleteLike(int filmId) {
+        String sqlQuery = "DELETE FROM FILM_LIKES WHERE FILM_ID= ?";
+        jdbcTemplate.update(sqlQuery, filmId);
     }
 }

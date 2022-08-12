@@ -2,7 +2,8 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.dao.impl.InMemoryFilmStorage;
+import org.springframework.jdbc.core.JdbcTemplate;
+import ru.yandex.practicum.filmorate.dao.impl.FilmDbStorage;
 import ru.yandex.practicum.filmorate.dao.impl.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.exception.*;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -13,8 +14,9 @@ import java.time.Month;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FilmServiceTest {
-    InMemoryFilmStorage inMemoryFilmStorage;
+    FilmDbStorage filmDbStorage;
     InMemoryUserStorage inMemoryUserStorage;
+    JdbcTemplate jdbcTemplate;
     FilmService filmService;
     Film film;
     Film film2;
@@ -22,8 +24,9 @@ class FilmServiceTest {
     @BeforeEach
     void init() {
         inMemoryUserStorage = new InMemoryUserStorage();
-        inMemoryFilmStorage = new InMemoryFilmStorage();
-       // filmService = new FilmService(inMemoryFilmStorage, inMemoryUserStorage) toDO заполнить;
+        filmDbStorage = new FilmDbStorage(jdbcTemplate);
+       // filmService = new Fil
+        // mService(inMemoryFilmStorage, inMemoryUserStorage) toDO заполнить;
 
         film = new Film()
                 .setId(1)

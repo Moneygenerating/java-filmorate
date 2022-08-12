@@ -75,7 +75,6 @@ public class FilmService {
         likeDbStorage.deleteFilmLikes(film);
 
         //сохраняем в бд новый фильм
-        //final Film newFilm = filmDbStorage.saveFilm(film);
         final Film newFilm = filmDbStorage.updateFilm(film);
 
         //обновляем связи лайков и жанров
@@ -109,7 +108,6 @@ public class FilmService {
         return films;
     }
 
-
     void checkDescription(Film film) {
         if (film.getDescription().length() > 200) {
             throw new FilmDescriptionException("Количество символов не может быть больше 200.");
@@ -123,49 +121,28 @@ public class FilmService {
         }
     }
 
-    //toDO
     public void addLike(int id, int userId) {
         if (filmDbStorage.getFilm(id) == null || userDbStorage.getUser(userId) == null) {
             throw new UserNotFoundException("Пользователи/фильмы с такими id не найдены, поставить лайк не получилось");
         }
+        filmDbStorage.addLike(id, userId);
 
-        Film film = filmDbStorage.getFilm(id);
-        User user = userDbStorage.getUser(userId);
-        filmDbStorage.addLike(film, user);
     }
 
-    public void deleteLike(int id, int userId) {
-        if (filmDbStorage.getFilm(id) == null || userDbStorage.getUser(userId) == null) {
+    public void deleteLike(int filmId, int userId) {
+        if (filmDbStorage.getFilm(filmId) == null || userDbStorage.getUser(userId) == null) {
             throw new UserNotFoundException("Пользователи/фильмы с такими id не найдены, удалить лайк не получилось");
         }
 
-        Film film = filmDbStorage.getFilm(id);
-        User user = userDbStorage.getUser(userId);
-
-        filmDbStorage.deleteLike(film, user);
+        filmDbStorage.deleteLike(filmId);
     }
 
     public Stream<Film> findFilmByCount(Integer count) {
         if (count < 0) {
             throw new IncorrectParameterException("count");
         }
-        //toDO
-        //Set<Integer> id = likeDbStorage.getTopFilmsByParams(count);
+
         Set<Film> films = filmDbStorage.getTopFilms(count);
         return films.stream();
-        /*
-        List<Film> films = filmDbStorage.getFilms();
-
-        genreDbStorage.loadFilmGenre(films);
-        likeDbStorage.loadFilmLikes(films);
-        return films.stream()
-                .sorted((f0, f1) -> {
-                    int comp = f0.getLikes().toArray().length - f1.getLikes().toArray().length;
-                    return comp * -1;
-                })
-                .limit(count);
-
-         */
-
     }
 }
