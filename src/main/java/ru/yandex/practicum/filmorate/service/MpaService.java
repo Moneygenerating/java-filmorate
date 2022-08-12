@@ -19,8 +19,8 @@ public class MpaService {
     }
 
     public Collection<Mpa> findAll() {
-        Set<Mpa> mpaList = mpaDbStorage.getMpaAll();
-        return mpaList;
+        Set<Mpa> mpaSet = mpaDbStorage.getMpaAll();
+        return mpaSet;
     }
 
     public Mpa findMpaById(Integer mpaId) {
@@ -31,7 +31,6 @@ public class MpaService {
                     mpaId
             ));
         }
-
 
         final Mpa mpaById = mpaDbStorage.getMpaById(mpaId);
         return mpaById;

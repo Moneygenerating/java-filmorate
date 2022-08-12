@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.dao.GenreStorage;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,6 +65,21 @@ public class GenreDbStorage implements GenreStorage {
                 filmMap.get(id).setGenres(fd);
             }
         }
+    }
+
+    @Override
+    public Set<Genre> getGenreAll() {
+        String sqlQuery = "SELECT * FROM FILM_GENRES";
+        List<Genre> genres = jdbcTemplate.query(sqlQuery, GenreDbStorage::makeGenre);
+        LinkedHashSet<Genre> genreSet = new LinkedHashSet<>(genres);
+        return genreSet;
+    }
+
+    @Override
+    public Genre getGenreById(Integer genreId) {
+        String sqlQuery = "SELECT * FROM FILM_GENRES WHERE GENRES_ID = ?";
+        Genre genre = jdbcTemplate.queryForObject(sqlQuery, GenreDbStorage::makeGenre, genreId);
+        return genre;
     }
 
     @Override
