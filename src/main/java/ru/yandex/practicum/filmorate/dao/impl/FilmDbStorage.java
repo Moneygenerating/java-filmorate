@@ -99,17 +99,31 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film updateFilm(Film film) {
-        String sqlQuery = "INSERT INTO FILMS (FILMS_NAME,DESCRIPTION,DURATION,RATING_MPA,RELEASE_DATE) VALUES (?,?,?,?,?)";
+        String sqlQuery = "UPDATE FILMS SET FILMS_NAME = ?,DESCRIPTION = ?,DURATION =? ,RATING_MPA=?,RELEASE_DATE =? WHERE FILM_ID=?";
 
         jdbcTemplate.update(sqlQuery
                 , film.getName()
                 , film.getDescription()
                 , film.getDuration()
                 , film.getRatingMpa().getId()
-                , film.getReleaseDate());
+                , film.getReleaseDate()
+                , film.getId());
 
         return film;
 
+    }
+
+    @Override
+    public Set<Film> getTopFilms(int id) {
+        String sqlQuery = "SELECT f.FILM_ID,f.FILMS_NAME,f.DESCRIPTION,f.DURATION,f.RELEASE_DATE,mpa.MPA_ID,mpa.MPA_RATE" +
+                " FROM FILMS AS f JOIN FILM_RATING_MPA as mpa ON f.RATING_MPA = mpa.MPA_ID  left join FILM_LIKES as fl " +
+                "ON f.FILM_ID = fl.FILM_ID GROUP BY f.FILM_ID ORDER BY COUNT(fl.FILM_ID) DESC LIMIT ?";
+
+        List<Film> films = jdbcTemplate.query(sqlQuery, FilmDbStorage::makeFilm, id);
+
+        LinkedHashSet<Film> fd = new LinkedHashSet<>(films);
+
+        return fd;
     }
 
     @Override

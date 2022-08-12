@@ -23,6 +23,11 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
+    public Set<Film> getTopFilms(int id){
+        return null;
+    }
+
+    @Override
     public Set<Film> getFilmsById(Set<Integer> id){
         return null;
     }

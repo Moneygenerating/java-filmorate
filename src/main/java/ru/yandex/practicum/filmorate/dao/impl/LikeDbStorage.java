@@ -81,14 +81,16 @@ public class LikeDbStorage implements LikeStorage {
             jdbcTemplate.update(sqlQuery, film.getId());
         }
     }
-
+    /*
     @Override
     public Set<Integer> getTopFilmsByParams(int count){
-        String sqlQuery = "SELECT FILM_ID FROM FILM_LIKES GROUP BY FILM_ID ORDER BY COUNT(FILM_ID) DESC LIMIT ?";
-        List<Integer> likes = jdbcTemplate.queryForList(sqlQuery, Integer.class,count);
+        String sqlQuery = "SELECT FILM_ID, COUNT(FILM_ID) FROM FILM_LIKES GROUP BY FILM_ID ORDER BY COUNT(FILM_ID) DESC";
+        List<Integer> likes = jdbcTemplate.queryForList(sqlQuery, Integer.class);
         LinkedHashSet<Integer>id = new LinkedHashSet<>(likes);
         return id;
     }
+
+     */
 
     static Likes makeLike(ResultSet rs, int rowNum) throws SQLException {
         return new Likes((rs.getInt("USER_ID")),

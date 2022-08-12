@@ -15,8 +15,6 @@ public interface LikeStorage {
 
     void loadFilmLikes(List<Film> films);
 
-    Set<Integer> getTopFilmsByParams(int count);
-
     void deleteFilmLikes(Film film);
 
 }

@@ -14,6 +14,8 @@ public interface FilmStorage {
 
     Set<Film> getFilmsById(Set<Integer> id);
 
+    Set<Film> getTopFilms(int id);
+
     Film getFilm(int filmId);
 
     Film saveFilm(Film film);

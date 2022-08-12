@@ -84,7 +84,6 @@ public class FilmService {
         if (film.getLikes() != null) {
             likeDbStorage.setFilmLikes(newFilm);
         }
-
         return newFilm;
     }
 
@@ -151,8 +150,9 @@ public class FilmService {
             throw new IncorrectParameterException("count");
         }
         //toDO
-        Set<Integer> id = likeDbStorage.getTopFilmsByParams(count);
-        return filmDbStorage.getFilmsById(id).stream();
+        //Set<Integer> id = likeDbStorage.getTopFilmsByParams(count);
+        Set<Film> films = filmDbStorage.getTopFilms(count);
+        return films.stream();
         /*
         List<Film> films = filmDbStorage.getFilms();
 
