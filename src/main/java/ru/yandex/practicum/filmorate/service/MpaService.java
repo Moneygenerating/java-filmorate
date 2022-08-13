@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Service
 public class MpaService {
-    final MpaStorage mpaDbStorage;
+    private final MpaStorage mpaDbStorage;
     @Autowired
     public MpaService(MpaStorage mpaDbStorage) {
         this.mpaDbStorage = mpaDbStorage;

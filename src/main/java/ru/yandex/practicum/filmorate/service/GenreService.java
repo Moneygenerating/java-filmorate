@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Service
 public class GenreService {
-    final GenreStorage genreDbStorage;
+    private final GenreStorage genreDbStorage;
 
     @Autowired
     public GenreService(GenreStorage genreDbStorage) {

@@ -17,7 +17,7 @@ import java.util.Set;
 @Primary
 public class MpaDbStorage implements MpaStorage {
 
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     public MpaDbStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -28,7 +28,7 @@ public class MpaDbStorage implements MpaStorage {
                 "f.RATING_MPA = m.MPA_ID WHERE FILM_ID= ?";
 
         Mpa mpa = jdbcTemplate.queryForObject(sqlQuery, MpaDbStorage::makeMpa, film.getId());
-        //обновляем жанры
+        //обновляем MPA
         film.setRatingMpa(mpa);
     }
 

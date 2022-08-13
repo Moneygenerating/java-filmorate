@@ -16,13 +16,12 @@ import java.util.stream.Collectors;
 @Repository
 @Primary
 public class LikeDbStorage implements LikeStorage {
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     public LikeDbStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    //todo delete
     public void addFilmLikeByUserId(int userId, int filmId) {
         String sqlQueryGenre = "INSERT INTO FILM_LIKES (USER_ID, FILM_ID) VALUES (?,?)";
         jdbcTemplate.update(sqlQueryGenre, userId, filmId);
