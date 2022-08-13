@@ -16,11 +16,13 @@ import java.util.Collection;
 public class GenreController {
     private final GenreService genreService;
     private static final Logger log = LoggerFactory.getLogger(FilmController.class);
-    public GenreController(GenreService genreService){
+
+    public GenreController(GenreService genreService) {
         this.genreService = genreService;
     }
+
     @GetMapping
-    public Collection<Genre> findAll(){
+    public Collection<Genre> findAll() {
         log.info("Выполнен запрос /get на получение списка Genre");
         return genreService.findAll();
     }
