@@ -61,7 +61,7 @@ public class UserController {
         userService.deleteFriend(id, friendId);
     }
 
-    //возвращаем список пользователей, являющихся его друзьями./todo
+    //возвращаем список пользователей, являющихся его друзьями.
     @GetMapping("/{id}/friends")
     public Stream<User> getUserFriends(@PathVariable("id") Integer id) {
         log.info("Выполнен запрос /get на получение друзей пользователя по id");

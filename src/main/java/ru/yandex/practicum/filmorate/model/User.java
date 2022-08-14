@@ -21,14 +21,24 @@ public class User {
     //валидация через аннотацию
     @NotBlank
     private String login;
-
     private String name;
     @Email
     private String email;
     @Past
     private LocalDate birthday;
+    //для друга
     @JsonIgnore
-    private Set<Integer> friendId = new HashSet<>();
+    private Set<Friend> friend;
+
+    @JsonIgnore
+    private Set<Likes> userLikes;
+    public User(int user_id, String login, String name, String email, LocalDate birthday) {
+        this.id = user_id;
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.birthday = birthday;
+    }
 
     @Override
     public boolean equals(Object o) {

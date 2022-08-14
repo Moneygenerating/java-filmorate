@@ -1,13 +1,16 @@
 package ru.yandex.practicum.filmorate.dao;
 
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.User;
-
-import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public interface FilmStorage {
 
-    HashMap<Integer, Film> getFilms();
+    List<Film> getFilms();
+
+    Set<Film> getFilmsById(Set<Integer> id);
+
+    Set<Film> getTopFilms(int id);
 
     Film getFilm(int filmId);
 
@@ -17,7 +20,7 @@ public interface FilmStorage {
 
     void deleteFilm(int filmId);
 
-    void addLike(Film film, User user);
+    void addLike(Integer id, Integer userId);
 
-    void deleteLike(Film film, User user);
+    void deleteLike(int filmId);
 }

@@ -1,11 +1,13 @@
 package ru.yandex.practicum.filmorate.dao;
 
 import ru.yandex.practicum.filmorate.model.User;
-import java.util.HashMap;
+
+import java.util.List;
+import java.util.Set;
 
 public interface UserStorage {
 
-    HashMap<Integer, User> getUsers();
+    List<User> getUsers();
 
     User getUser(int userId);
 
@@ -15,8 +17,10 @@ public interface UserStorage {
 
     void deleteUser(int userId);
 
-    void addFriend(User user, User friend);
+    void addFriend(Integer userId, Integer friendId);
 
-    void deleteFriend(User user, User friend);
+    void deleteFriend(Integer friendId);
+
+    Set<User> getUserFriendsById(int id);
 
 }
